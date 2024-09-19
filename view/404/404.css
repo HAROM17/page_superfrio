@@ -1,0 +1,25 @@
+.bg-dark-custom {
+    background-color: #1f1f1f;
+    /* Fondo oscuro, ajustado para que coincida con el color del lado derecho */
+    color: #fff;
+    /* Texto blanco */
+}
+
+.shape path {
+    fill: #1f1f1f;
+    /* Ajustar el color del SVG */
+}
+
+.full-height {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.auth-one-bg-position.auth-one-bg {
+    background: none !important;
+}
+
+
