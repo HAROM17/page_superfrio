@@ -61,10 +61,21 @@ class Cliente extends Conectar {
     
 
     
+    public function insert_cliente_google($nombre, $apellido, $correo, $foto, $emp_id) {
+        $conectar = parent::Conexion();
+        $sql = "INSERT INTO tm_cliente (cli_nom, cli_ape, cli_correo, cli_img, emp_id, fech_crea, est) 
+                VALUES (?, ?, ?, ?, ?, NOW(), 1)";
+        $query = $conectar->prepare($sql);
+        $query->bindValue(1, $nombre);
+        $query->bindValue(2, $apellido);
+        $query->bindValue(3, $correo);
+        $query->bindValue(4, $foto);
+        $query->bindValue(5, $emp_id);
+        return $query->execute();
+    }
 
 
-
-    public function guardarImagenDesdeUrl($url) {
+    public function guardarImagenDesdeUrlLocal($url) {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
             // Obtener la extensión de la imagen
             $extension = pathinfo($url, PATHINFO_EXTENSION);
@@ -90,22 +101,11 @@ class Cliente extends Conectar {
         return false; // Retorna false si falla
     }
     
-    public function insert_cliente_google($nombre, $apellido, $correo, $foto, $emp_id) {
-        $conectar = parent::Conexion();
-        $sql = "INSERT INTO tm_cliente (cli_nom, cli_ape, cli_correo, cli_img, emp_id, fech_crea, est) 
-                VALUES (?, ?, ?, ?, ?, NOW(), 1)";
-        $query = $conectar->prepare($sql);
-        $query->bindValue(1, $nombre);
-        $query->bindValue(2, $apellido);
-        $query->bindValue(3, $correo);
-        $query->bindValue(4, $foto);
-        $query->bindValue(5, $emp_id);
-        return $query->execute();
-    }
 
 
 
-    public function guardarImagenDesdeUrlBack($url) {
+
+    public function guardarImagenDesdeUrlHosting($url) {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
             // Generar un nombre único para la imagen
             $extension = pathinfo($url, PATHINFO_EXTENSION) ?: 'png';
