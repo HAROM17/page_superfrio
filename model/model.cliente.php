@@ -1,122 +1,145 @@
 <?php
-class Cliente extends Conectar
-{
 
+class Cliente extends Conectar {
 
-    /* Listar registro por ID */
-    public function get_empresa_x_emp_id($emp_id){
+    /* Método para validar el inicio de sesión */
+    public function loginCliente($correo, $pass, $emp_id) {
         $conectar = parent::Conexion();
-        $sql = "CALL sp_l_empresa_02(?)";
+        $sql = "CALL login_cliente(?, ?, ?)";
         $query = $conectar->prepare($sql);
-        $query->bindValue(1, $emp_id);
+        $query->bindValue(1, $emp_id, PDO::PARAM_INT);
+        $query->bindValue(2, $correo, PDO::PARAM_STR);
+        $query->bindValue(3, $pass, PDO::PARAM_STR);
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
-    }        
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
     
-    public function insert_clientes($emp_id, $cli_correo, $cli_pass)
-    {
+
+    public function get_cliente_x_correo($cli_correo, $emp_id) {
         $conectar = parent::conexion();
-        $sql = "CALL registrar_cliente(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        parent::set_names();
+    
+        $sql = "SELECT 
+                    tm_cliente.cli_id, 
+                    tm_cliente.emp_id, 
+                    tm_cliente.cli_nom, 
+                    tm_cliente.cli_ape, 
+                    tm_cliente.cli_correo, 
+                    tm_cliente.cli_telf, 
+                    tm_cliente.cli_img, 
+                    tm_cliente.cli_direc,
+                    tm_empresa.emp_nom
+                FROM 
+                    tm_cliente
+                INNER JOIN 
+                    tm_empresa ON tm_cliente.emp_id = tm_empresa.emp_id
+                WHERE 
+                    tm_cliente.cli_correo = ? 
+                    AND tm_cliente.emp_id = ? 
+                    AND tm_cliente.est = 1";
+    
         $query = $conectar->prepare($sql);
-        $query->bindValue(1, $emp_id);
-        $query->bindValue(2, "");
-        $query->bindValue(3, "");
-        $query->bindValue(4, "");
-        $query->bindValue(5, $cli_correo);
-        $query->bindValue(6, "");
-        $query->bindValue(7, "");
-        $query->bindValue(8, $cli_pass);
-        $query->bindValue(9, "");
+        $query->bindValue(1, $cli_correo);
+        $query->bindValue(2, $emp_id);
         $query->execute();
-    }
-
-    /* Verificar si el correo electrónico ya está registrado */
-    public function verificarCorreo($correo)
-    {
-        $conectar = parent::conexion();
-        $sql = "SELECT COUNT(*) AS total FROM tm_cliente WHERE cli_correo = ?";
-        $query = $conectar->prepare($sql);
-        $query->execute([$correo]);
-        $row = $query->fetch(PDO::FETCH_ASSOC);
-        $total = $row['total'];
-
-        return ($total > 0) ? true : false;
+    
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
-    /* Acceso a la tienda virtual */
-    public function loginCliente()
-    {
+    public function insert_cliente($nombre, $apellido, $correo, $password) {
         $conectar = parent::Conexion();
+        $sql = "INSERT INTO tm_cliente (cli_nom, cli_ape, cli_correo, cli_pass, emp_id, fech_crea, est) 
+                VALUES (?, ?, ?, ?, 1, NOW(), 1)";
+        $query = $conectar->prepare($sql);
+        $query->bindValue(1, $nombre);
+        $query->bindValue(2, $apellido);
+        $query->bindValue(3, $correo);
+        $query->bindValue(4, $password);
+        return $query->execute();
+    }
+    
 
-        if (isset($_POST["enviar"])) {
-            // Recepción de parámetros desde el formulario de login
-            $correo = $_POST["cli_correo"];
-            $pass = $_POST["cli_pass"];
-            $emp_id = $_POST["emp_id"];
+    
 
-            if (empty($correo) || empty($pass) || empty($emp_id)) {
-                // Manejar el error si alguno de los campos está vacío
-                header("Location: " . Conectar::ruta() . "index.php?m=erroralacceder");
-                exit();
-            } else {
-                $sql = "CALL login_cliente(?, ?, ?)";
-                $query = $conectar->prepare($sql);
-                $query->bindValue(1, $emp_id);
-                $query->bindValue(2, $correo);
-                $query->bindValue(3, $pass);
-                $query->execute();
-                $resultado = $query->fetch();
 
-                if (is_array($resultado) && count($resultado) > 0) {
-                    // Iniciar sesión y establecer variables de sesión para el cliente
-                    session_start();
-                    $_SESSION["cli_id"] = $resultado["cli_id"];
-                    $_SESSION["cli_nom"] = $resultado["cli_nom"];
-                    $_SESSION["cli_ape"] = $resultado["cli_ape"];
-                    $_SESSION["cli_correo"] = $resultado["cli_correo"];
-                    $_SESSION["cli_telf"] = $resultado["cli_telf"];
-                    $_SESSION["cli_direc"] = $resultado["cli_direc"];
-                    $_SESSION["fech_crea"] = $resultado["fech_crea"];
-                    $_SESSION["cli_img"] = $resultado["cli_img"];
-                    $_SESSION["emp_id"] = $resultado["emp_id"];
 
-                    // Redireccionar al index.php después del login exitoso
-                    header("Location: " . Conectar::ruta());
-                    exit();
-                } else {
-                    // Redirigir a la página de inicio de sesión con mensaje de error
-                    header("Location: " . Conectar::ruta() . "index.php?m=erroralacceder");
-                    exit();
-                }
+    public function guardarImagenDesdeUrl($url) {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            // Obtener la extensión de la imagen
+            $extension = pathinfo($url, PATHINFO_EXTENSION);
+            $extension = $extension ?: 'png'; // Si no tiene extensión, usar PNG por defecto
+    
+            // Generar un nombre único para la imagen
+            $new_name = time() . rand(1000, 9999) . '.' . $extension;
+    
+            // Definir la ruta donde se guardará la imagen (en otro proyecto)
+            $destination = "C:/xampp/htdocs/sistema_tropical/assets/imagenes/clientes/" . $new_name;
+    
+            // Descargar la imagen desde la URL
+            $imagen = file_get_contents($url);
+            if ($imagen === false) {
+                return false; // Error al descargar la imagen
             }
-        } else {
-            header("Location: " . Conectar::ruta());
-            exit();
+    
+            // Guardar la imagen en el destino
+            if (file_put_contents($destination, $imagen) !== false) {
+                return $new_name; // Retorna solo el nombre del archivo
+            }
         }
+        return false; // Retorna false si falla
     }
-
-    public function verificarClienteContrasena($cli_id, $password) {
-        $conectar = parent::Conexion(); // Ajusta según tu método de conexión
-        $sql = "SELECT cli_id FROM tm_cliente WHERE cli_id = ? AND cli_pass = ?";
-        $query = $conectar->prepare($sql);
-        $query->bindValue(1, $cli_id);
-        $query->bindValue(2, $password);
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-
-        // Retorna true si se encontró el cliente con esa contraseña, false si no
-        return ($result !== false);
-    }
-
-    /* Eliminar cliente */
-    public function eliminar_cuenta($cli_id)
-    {
+    
+    public function insert_cliente_google($nombre, $apellido, $correo, $foto, $emp_id) {
         $conectar = parent::Conexion();
-        $sql = "CALL sp_d_cliente_01(?)";
+        $sql = "INSERT INTO tm_cliente (cli_nom, cli_ape, cli_correo, cli_img, emp_id, fech_crea, est) 
+                VALUES (?, ?, ?, ?, ?, NOW(), 1)";
         $query = $conectar->prepare($sql);
-        $query->bindValue(1, $cli_id);
-        $query->execute();
-
+        $query->bindValue(1, $nombre);
+        $query->bindValue(2, $apellido);
+        $query->bindValue(3, $correo);
+        $query->bindValue(4, $foto);
+        $query->bindValue(5, $emp_id);
+        return $query->execute();
     }
+
+
+
+    public function guardarImagenDesdeUrlBack($url) {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            // Generar un nombre único para la imagen
+            $extension = pathinfo($url, PATHINFO_EXTENSION) ?: 'png';
+            $new_name = time() . rand(1000, 9999) . '.' . $extension;
+    
+            // Definir la URL del backend para subir la imagen
+            $uploadEndpoint = "https://sistema.haromdev.com/api/subir_imagen_cliente.php";
+    
+            // Enviar la imagen al backend
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $uploadEndpoint);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, [
+                'image_url' => $url,
+                'image_name' => $new_name,
+            ]);
+    
+            $response = curl_exec($ch);
+            curl_close($ch);
+    
+            $result = json_decode($response, true);
+    
+            if ($result && $result['success']) {
+                return $new_name; // Retornar solo el nombre de la imagen
+            }
+        }
+    
+        return false; // Retorna false si falla
+    }
+    
+    
+    
+    
 }
+
+?>
