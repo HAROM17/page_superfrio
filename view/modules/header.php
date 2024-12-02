@@ -13,7 +13,7 @@
                                 </svg>
                             </span>
                             <p>
-                                Envio Gratis A Partir de S/. 900
+                                Envio Gratis A Partirrr de S/. 900
                             </p>
                         </div>
                     </div>
