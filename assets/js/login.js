@@ -163,17 +163,17 @@ function loginWithGoogle(correo) {
 }
 
 // Función de registro con Google
-function registerWithGoogle(nombre, apellido, correo, foto) {
+function registerWithGoogle(cli_nom, cli_ape, cli_correo, cli_img) {
     fetch("controller/controller.cliente.php?op=register_cliente_google", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            cli_nom: nombre,
-            cli_ape: apellido,
-            cli_correo: correo,
-            cli_img: foto,
+            cli_nom: cli_nom,
+            cli_ape: cli_ape,
+            cli_correo: cli_correo,
+            cli_img: cli_img,
         }),
     })
         .then((response) => response.json())

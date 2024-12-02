@@ -18,11 +18,14 @@ class Conectar {
     }
 
     public static function ruta() {
-        return "http://localhost/page_super/";
+        # return "https://superfrio.haromdev.com/";
+        return "http://localhost/page_superfrio/";
     }
 
     public static function ruta_back() {
+        #return "https://sistema.haromdev.com/";
         return "http://localhost/sistema_Tropical/";
     }
+
 }
 

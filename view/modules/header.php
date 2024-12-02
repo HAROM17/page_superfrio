@@ -296,22 +296,33 @@
                     <!-- Crear Cuenta -->
                     <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
                         <form id="registerForm">
-                            <div class="mb-3">
-                                <label for="registerFirstName" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="registerFirstName" name="first_name" placeholder="Ingrese su nombre" required>
+                            <div class="row mb-2">
+                                <div class="col">
+                                    <label for="registerFirstName" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="registerFirstName" name="cli_nom" placeholder="Ingrese su nombre" required>
+                                </div>
+                                <div class="col">
+                                    <label for="registerLastName" class="form-label">Apellido</label>
+                                    <input type="text" class="form-control" id="registerLastName" name="cli_ape" placeholder="Ingrese su apellido" required>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="registerLastName" class="form-label">Apellido</label>
-                                <input type="text" class="form-control" id="registerLastName" name="last_name" placeholder="Ingrese su apellido" required>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="registerDNI" class="form-label">DNI</label>
+                                    <input type="text" class="form-control" id="registerDNI" name="cli_dni" placeholder="Ingrese su DNI" required>
+                                </div>
+                                <div class="col">
+                                    <label for="registerPassword" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="registerPassword" name="cli_pass" placeholder="Ingrese su contraseña" required>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="registerEmail" class="form-label">Correo Electrónico</label>
-                                <input type="email" class="form-control" id="registerEmail" name="email" placeholder="Ingrese su correo electrónico" required>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="registerEmail" class="form-label">Correo Electrónico</label>
+                                    <input type="email" class="form-control" id="registerEmail" name="cli_correo" placeholder="Ingrese su correo electrónico" required>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="registerPassword" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Ingrese su contraseña" required>
-                            </div>
+
                             <button type="submit" class="btn btn-success w-100 mb-3">Crear Cuenta</button>
                             <br>
                             <div class="form-group" style="display: flex; justify-content: center; align-items: center;">

@@ -2,18 +2,27 @@
 
 class Cliente extends Conectar {
 
+
     /* Método para validar el inicio de sesión */
     public function loginCliente($correo, $pass, $emp_id) {
         $conectar = parent::Conexion();
-        $sql = "CALL login_cliente(?, ?, ?)";
+        $sql = "CALL sp_l_cliente_03(?, ?)";
         $query = $conectar->prepare($sql);
         $query->bindValue(1, $emp_id, PDO::PARAM_INT);
         $query->bindValue(2, $correo, PDO::PARAM_STR);
-        $query->bindValue(3, $pass, PDO::PARAM_STR);
         $query->execute();
-        return $query->fetch(PDO::FETCH_ASSOC);
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+
+        // Validar si el cliente existe y la contraseña es válida
+        if ($result && password_verify($pass, $result['cli_pass'])) {
+            // Eliminar el hash de la contraseña antes de retornar los datos
+            unset($result['cli_pass']);
+            return $result; // Retorna los datos del cliente si es válido
+        }
+
+        return false; // Retorna false si el cliente no existe o la contraseña no es válida
     }
-    
+
 
     public function get_cliente_x_correo($cli_correo, $emp_id) {
         $conectar = parent::conexion();
@@ -47,29 +56,30 @@ class Cliente extends Conectar {
     }
 
 
-    public function insert_cliente($nombre, $apellido, $correo, $password) {
+    public function insert_cliente($cli_nom, $cli_ape, $cli_dni, $cli_correo, $cli_pass) {
         $conectar = parent::Conexion();
-        $sql = "INSERT INTO tm_cliente (cli_nom, cli_ape, cli_correo, cli_pass, emp_id, fech_crea, est) 
-                VALUES (?, ?, ?, ?, 1, NOW(), 1)";
+        $hashed_password = password_hash($cli_pass, PASSWORD_BCRYPT);
+        $sql = "INSERT INTO tm_cliente (cli_nom, cli_ape,cli_dni, cli_correo, cli_pass, emp_id, fech_crea, est) 
+                VALUES (?, ?, ?, ?, ?, 1, NOW(), 1)";
         $query = $conectar->prepare($sql);
-        $query->bindValue(1, $nombre);
-        $query->bindValue(2, $apellido);
-        $query->bindValue(3, $correo);
-        $query->bindValue(4, $password);
+        $query->bindValue(1, $cli_nom);
+        $query->bindValue(2, $cli_ape);
+        $query->bindValue(3, $cli_dni);
+        $query->bindValue(4, $cli_correo);
+        $query->bindValue(5, $hashed_password);
         return $query->execute();
     }
     
-
     
-    public function insert_cliente_google($nombre, $apellido, $correo, $foto, $emp_id) {
+    public function insert_cliente_google($cli_nom, $cli_ape, $cli_correo, $cli_img, $emp_id) {
         $conectar = parent::Conexion();
         $sql = "INSERT INTO tm_cliente (cli_nom, cli_ape, cli_correo, cli_img, emp_id, fech_crea, est) 
                 VALUES (?, ?, ?, ?, ?, NOW(), 1)";
         $query = $conectar->prepare($sql);
-        $query->bindValue(1, $nombre);
-        $query->bindValue(2, $apellido);
-        $query->bindValue(3, $correo);
-        $query->bindValue(4, $foto);
+        $query->bindValue(1, $cli_nom);
+        $query->bindValue(2, $cli_ape);
+        $query->bindValue(3, $cli_correo);
+        $query->bindValue(4, $cli_img);
         $query->bindValue(5, $emp_id);
         return $query->execute();
     }

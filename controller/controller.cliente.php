@@ -25,12 +25,12 @@
                     $_SESSION["cli_telf"] = $resultado["cli_telf"];
                     $_SESSION["cli_direc"] = $resultado["cli_direc"];
                     $_SESSION["emp_id"] = $resultado["emp_id"];
-                    echo "1"; // Login exitoso
+                    echo "1"; 
                 } else {
-                    echo "0"; // Credenciales incorrectas
+                    echo "0"; 
                 }
             } else {
-                echo "-1"; // Campos obligatorios faltantes
+                echo "-1"; 
             }
             break;
         
@@ -59,53 +59,54 @@
             }
             break;
 
-        case "register_cliente":
-            $nombre = $_POST["first_name"];
-            $apellido = $_POST["last_name"];
-            $correo = $_POST["email"];
-            $password = $_POST["password"];
-        
-            // Verificar si el correo ya existe
-            $existe_cliente = $cliente->get_cliente_x_correo($correo, 1);
-            if (count($existe_cliente) > 0) {
-                echo json_encode(["success" => false, "message" => "El correo ya está registrado."]);
-            } else {
-                // Registrar al cliente
-                $result = $cliente->insert_cliente($nombre, $apellido, $correo, $password);
-        
-                if ($result) {
-                    echo json_encode(["success" => true, "message" => "Cuenta registrada exitosamente."]);
+            case "register_cliente":
+                $cli_nom = $_POST["cli_nom"];
+                $cli_ape = $_POST["cli_ape"];
+                $cli_dni = $_POST["cli_dni"];
+                $cli_correo = $_POST["cli_correo"];
+                $cli_pass = $_POST["cli_pass"];
+            
+                // Verificar si el correo ya existe
+                $existe_cliente = $cliente->get_cliente_x_correo($cli_correo, 1);
+                if (count($existe_cliente) > 0) {
+                    echo json_encode(["success" => false, "message" => "El correo ya está registrado."]);
                 } else {
-                    echo json_encode(["success" => false, "message" => "Error al registrar la cuenta."]);
+                    // Registrar al cliente
+                    $result = $cliente->insert_cliente($cli_nom, $cli_ape, $cli_dni, $cli_correo, $cli_pass);
+            
+                    if ($result) {
+                        echo json_encode(["success" => true, "message" => "Cuenta registrada exitosamente."]);
+                    } else {
+                        echo json_encode(["success" => false, "message" => "Error al registrar la cuenta."]);
+                    }
                 }
-            }
-            break;
+                break;
         
             case "register_cliente_google":
                 $data = json_decode(file_get_contents("php://input"), true);
             
-                $nombre = $data["cli_nom"];
-                $apellido = $data["cli_ape"];
-                $correo = $data["cli_correo"];
-                $fotoUrl = $data["cli_img"];
+                $cli_nom = $data["cli_nom"];
+                $cli_ape = $data["cli_ape"];
+                $cli_correo = $data["cli_correo"];
+                $cli_img = $data["cli_img"];
                 $emp_id = 1; // ID de la empresa
             
                 // Verificar si el cliente ya existe
-                $clienteExistente = $cliente->get_cliente_x_correo($correo, $emp_id);
+                $clienteExistente = $cliente->get_cliente_x_correo($cli_correo, $emp_id);
                 if (!empty($clienteExistente)) {
                     echo json_encode(["success" => false, "message" => "El correo ya está registrado."]);
                     exit();
                 }
             
                 // Guardar la imagen desde la URL
-                $fotoGuardada = $cliente->guardarImagenDesdeUrlLocal($fotoUrl);
+                $fotoGuardada = $cliente->guardarImagenDesdeUrlLocal($cli_img);
                 if (!$fotoGuardada) {
                     echo json_encode(["success" => false, "message" => "Error al guardar la imagen."]);
                     exit();
                 }
             
                 // Registrar al cliente
-                $resultado = $cliente->insert_cliente_google($nombre, $apellido, $correo, $fotoGuardada, $emp_id);
+                $resultado = $cliente->insert_cliente_google($cli_nom, $cli_ape, $cli_correo, $fotoGuardada, $emp_id);
             
                 echo json_encode([
                     "success" => $resultado,
