@@ -99,7 +99,7 @@
                 }
             
                 // Guardar la imagen desde la URL
-                $fotoGuardada = $cliente->guardarImagenDesdeUrlLocal($cli_img);
+                $fotoGuardada = $cliente->guardarImagenDesdeUrlHosting($cli_img);
                 if (!$fotoGuardada) {
                     echo json_encode(["success" => false, "message" => "Error al guardar la imagen."]);
                     exit();

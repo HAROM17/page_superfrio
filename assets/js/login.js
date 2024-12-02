@@ -24,11 +24,13 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
                 const alertDiv = document.getElementById("loginAlert");
                 alertDiv.textContent = "Correo o contraseña incorrectos.";
                 alertDiv.classList.remove("d-none");
+                setTimeout(() => alertDiv.classList.add("d-none"), 5000);
             } else if (data.trim() === "-1") {
                 // Mostrar mensaje de error por campos faltantes
                 const alertDiv = document.getElementById("loginAlert");
                 alertDiv.textContent = "Todos los campos son obligatorios.";
                 alertDiv.classList.remove("d-none");
+                setTimeout(() => alertDiv.classList.add("d-none"), 5000);
             }
         })
         .catch((error) => {

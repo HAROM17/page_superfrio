@@ -85,10 +85,10 @@ class Cliente extends Conectar {
     }
 
 
-    public function guardarImagenDesdeUrlLocal($url) {
-        if (filter_var($url, FILTER_VALIDATE_URL)) {
+    public function guardarImagenDesdeUrlLocal($cli_img) {
+        if (filter_var($cli_img, FILTER_VALIDATE_URL)) {
             // Obtener la extensión de la imagen
-            $extension = pathinfo($url, PATHINFO_EXTENSION);
+            $extension = pathinfo($cli_img, PATHINFO_EXTENSION);
             $extension = $extension ?: 'png'; // Si no tiene extensión, usar PNG por defecto
     
             // Generar un nombre único para la imagen
@@ -98,7 +98,7 @@ class Cliente extends Conectar {
             $destination = "C:/xampp/htdocs/sistema_tropical/assets/imagenes/clientes/" . $new_name;
     
             // Descargar la imagen desde la URL
-            $imagen = file_get_contents($url);
+            $imagen = file_get_contents($cli_img);
             if ($imagen === false) {
                 return false; // Error al descargar la imagen
             }
@@ -115,14 +115,14 @@ class Cliente extends Conectar {
 
 
 
-    public function guardarImagenDesdeUrlHosting($url) {
-        if (filter_var($url, FILTER_VALIDATE_URL)) {
+    public function guardarImagenDesdeUrlHosting($cli_img) {
+        if (filter_var($cli_img, FILTER_VALIDATE_URL)) {
             // Generar un nombre único para la imagen
-            $extension = pathinfo($url, PATHINFO_EXTENSION) ?: 'png';
+            $extension = pathinfo($cli_img, PATHINFO_EXTENSION) ?: 'png';
             $new_name = time() . rand(1000, 9999) . '.' . $extension;
     
             // Definir la URL del backend para subir la imagen
-            $uploadEndpoint = "https://sistema.haromdev.com/api/subir_imagen_cliente.php";
+            $uploadEndpoint = "https://sistema.haromdev.com/controllers/controller_cliente.php";
     
             // Enviar la imagen al backend
             $ch = curl_init();
@@ -130,7 +130,7 @@ class Cliente extends Conectar {
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, [
-                'image_url' => $url,
+                'image_url' => $cli_img,
                 'image_name' => $new_name,
             ]);
     

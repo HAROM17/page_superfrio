@@ -18,7 +18,7 @@ class Conectar {
     }
 
     public static function ruta() {
-        //return "https://superfrio.haromdev.com/";
+        //return "https://superfrios.haromdev.com/";
         return "http://localhost/page_superfrio/";
     }
 
