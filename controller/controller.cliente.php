@@ -9,12 +9,12 @@
     switch ($_GET["op"]) {
 
         case "login_cliente":
-            $correo = $_POST["cli_correo"];
-            $pass = $_POST["cli_pass"];
+            $cli_correo = $_POST["cli_correo"];
+            $cli_pass = $_POST["cli_pass"];
             $emp_id = $_POST["emp_id"];
         
-            if (!empty($correo) && !empty($pass) && !empty($emp_id)) {
-                $resultado = $cliente->loginCliente($correo, $pass, $emp_id);
+            if (!empty($cli_correo) && !empty($cli_pass) && !empty($emp_id)) {
+                $resultado = $cliente->loginCliente($cli_correo, $cli_pass, $emp_id);
         
                 if ($resultado) {
                     session_start();

@@ -4,17 +4,17 @@ class Cliente extends Conectar {
 
 
     /* Método para validar el inicio de sesión */
-    public function loginCliente($correo, $pass, $emp_id) {
+    public function loginCliente($cli_Correo, $cli_pass, $emp_id) {
         $conectar = parent::Conexion();
         $sql = "CALL sp_l_cliente_03(?, ?)";
         $query = $conectar->prepare($sql);
         $query->bindValue(1, $emp_id, PDO::PARAM_INT);
-        $query->bindValue(2, $correo, PDO::PARAM_STR);
+        $query->bindValue(2, $cli_Correo, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch(PDO::FETCH_ASSOC);
 
         // Validar si el cliente existe y la contraseña es válida
-        if ($result && password_verify($pass, $result['cli_pass'])) {
+        if ($result && password_verify($cli_pass, $result['cli_pass'])) {
             // Eliminar el hash de la contraseña antes de retornar los datos
             unset($result['cli_pass']);
             return $result; // Retorna los datos del cliente si es válido
