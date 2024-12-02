@@ -17,23 +17,14 @@ class Conectar {
         return $this->dbh->query("SET NAMES 'utf8'");
     }
 
-    public static function ruta1() {
-        return "http://localhost/page_superfrio/";
+    public static function ruta() {
+        return "https://superfrio.haromdev.com/";
+        //return "http://localhost/page_superfrio/";
     }
 
     public static function ruta_back() {
         return "https://sistema.haromdev.com/";
         //return "http://localhost/sistema_Tropical/";
-    }
-
-
-    static public function ruta(){
-        if(!empty($_SERVER["HTTPS"]) && ("on" == $_SERVER["HTTPS"])){
-            return "https://".$_SERVER["SERVER_NAME"]."/";
-        }else{
-            return "http://".$_SERVER["SERVER_NAME"]."/";
-        }
-
     }
 
 }
