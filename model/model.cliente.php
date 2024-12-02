@@ -147,9 +147,6 @@ class Cliente extends Conectar {
         return false; // Retorna false si falla
     }
     
-    
-    
-    
 }
 
 ?>
