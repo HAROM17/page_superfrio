@@ -5,7 +5,6 @@
     require_once("config/conexion.php");
     $url = Conectar::ruta();
     $url_back = Conectar::ruta_back();
-    $isAuthenticated = isset($_SESSION['cli_id']);
 
 ?>
 
