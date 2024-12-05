@@ -8,21 +8,35 @@ document.addEventListener("DOMContentLoaded", function () {
     // Iterar sobre los botones
     accountLinks.forEach((accountLink) => {
         if (accountLink) {
-            accountLink.addEventListener("click", function (event) {
-                event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+            // Agregar eventos para click y touchstart
+            ["click", "touchstart"].forEach((eventType) => {
+                accountLink.addEventListener(eventType, function (event) {
+                    event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
 
-                if (accountLink.id === "accountLink" && typeof isAuthenticated !== "undefined" && isAuthenticated) {
-                    // Si es el botón de escritorio y el usuario está autenticado
-                    window.location.href = "profile.html";
-                } else {
-                    // Mostrar el modal de inicio de sesión
-                    const loginModal = new bootstrap.Modal(document.getElementById("authModal"));
-                    loginModal.show();
-                }
+                    if (accountLink.id === "accountLink" && typeof isAuthenticated !== "undefined" && isAuthenticated) {
+                        // Si es el botón de escritorio y el usuario está autenticado
+                        window.location.href = "profile.html";
+                    } else {
+                        // Mostrar el modal de inicio de sesión
+                        const loginModal = new bootstrap.Modal(document.getElementById("authModal"));
+                        loginModal.show();
+                    }
+                });
             });
         }
     });
 });
+const loginModalElement = document.getElementById("authModal");
+const loginModal = new bootstrap.Modal(loginModalElement);
+
+loginModalElement.addEventListener("show.bs.modal", function () {
+    loginModalElement.setAttribute("aria-hidden", "false");
+});
+
+loginModalElement.addEventListener("hide.bs.modal", function () {
+    loginModalElement.setAttribute("aria-hidden", "true");
+});
+
 
 
 // Manejar el formulario de registro manual 
