@@ -12,31 +12,33 @@ document.addEventListener("DOMContentLoaded", function () {
             accountLink.addEventListener("click", function (event) {
                 event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
 
-                // Obtener el modal
-                const modalElement = document.getElementById("authModal");
-                const loginModal = new bootstrap.Modal(modalElement);
-
                 // Verificar si el usuario está autenticado
                 if (typeof isAuthenticated !== "undefined" && isAuthenticated) {
                     // Si está autenticado, redirigir al perfil
                     window.location.href = "profile.html";
                 } else {
-                    // Manejar aria-hidden para dispositivos móviles
-                    modalElement.addEventListener("shown.bs.modal", function () {
-                        modalElement.removeAttribute("aria-hidden");
-                    });
-
-                    modalElement.addEventListener("hidden.bs.modal", function () {
-                        modalElement.setAttribute("aria-hidden", "true");
-                    });
-
-                    // Mostrar el modal
+                    // Si no está autenticado, mostrar el modal
+                    const loginModal = new bootstrap.Modal(document.getElementById("authModal"));
                     loginModal.show();
                 }
             });
         }
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const modalElement = document.getElementById("authModal");
+
+    // Configurar aria-hidden dinámicamente
+    modalElement.addEventListener("show.bs.modal", function () {
+        modalElement.removeAttribute("aria-hidden");
+    });
+
+    modalElement.addEventListener("hide.bs.modal", function () {
+        modalElement.setAttribute("aria-hidden", "true");
+    });
+});
+
 
 
 
