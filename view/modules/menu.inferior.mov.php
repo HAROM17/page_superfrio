@@ -50,7 +50,7 @@
                         </div>
                     <?php else: ?>
                         <!-- Si no está autenticado -->
-                        <a href="#" id="accountLink" class="tp-mobile-item-btn">
+                        <a href="#" id="accountLinkMovil" class="tp-mobile-item-btn">
                             <i class="flaticon-user"></i>
                             <span>Ingresar</span>
                         </a>
