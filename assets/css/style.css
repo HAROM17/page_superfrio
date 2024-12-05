@@ -1,3 +1,7 @@
 .no-caret::after {
     display: none !important; /* Oculta el ícono de flecha */
 }
+
+#authModal[aria-hidden="true"] {
+    display: none !important;
+}

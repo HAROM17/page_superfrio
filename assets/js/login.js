@@ -26,18 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const modalElement = document.getElementById("authModal");
-
-    // Configurar aria-hidden dinámicamente
-    modalElement.addEventListener("show.bs.modal", function () {
-        modalElement.removeAttribute("aria-hidden");
-    });
-
-    modalElement.addEventListener("hide.bs.modal", function () {
-        modalElement.setAttribute("aria-hidden", "true");
-    });
-});
 
 
 
