@@ -26,16 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-const loginModalElement = document.getElementById("authModal");
-const loginModal = new bootstrap.Modal(loginModalElement);
-
-loginModalElement.addEventListener("show.bs.modal", function () {
-    loginModalElement.setAttribute("aria-hidden", "false");
-});
-
-loginModalElement.addEventListener("hide.bs.modal", function () {
-    loginModalElement.setAttribute("aria-hidden", "true");
-});
 
 
 
