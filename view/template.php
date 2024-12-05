@@ -126,6 +126,7 @@
     <script src="<?php echo $url ?>assets/js/ajax-form.js"></script>
     <script src="<?php echo $url ?>assets/js/main.js"></script>
     <script src="<?php echo $url ?>assets/js/login.js"></script>
+    <script src="<?php echo $url ?>assets/js/login_movil.js"></script>
 </body>
 
 </html>
