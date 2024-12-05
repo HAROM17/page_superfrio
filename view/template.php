@@ -3,6 +3,7 @@
     session_start();
     require_once("config/conexion.php");
     $url = Conectar::ruta();
+    $url_back = Conectar::ruta_back();
 
 ?>
 
@@ -107,24 +108,23 @@
 
     <!-- JS here -->
     <script src="https://accounts.google.com/gsi/client" async></script>
-    <script src="assets/js/vendor/jquery.js"></script>
-    <script src="assets/js/vendor/waypoints.js"></script>
-    <script src="assets/js/bootstrap-bundle.js"></script>
-    <script src="assets/js/meanmenu.js"></script>
-    <script src="assets/js/swiper-bundle.js"></script>
-    <script src="assets/js/slick.js"></script>
-    <script src="assets/js/range-slider.js"></script>
-    <script src="assets/js/magnific-popup.js"></script>
-    <script src="assets/js/nice-select.js"></script>
-    <script src="assets/js/purecounter.js"></script>
-    <script src="assets/js/countdown.js"></script>
-    <script src="assets/js/wow.js"></script>
-    <script src="assets/js/isotope-pkgd.js"></script>
-    <script src="assets/js/imagesloaded-pkgd.js"></script>
-    <script src="assets/js/ajax-form.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/login.js"></script>
-    <script src="assets/js/registrar_cliente.js"></script>
+    <script src="<?php echo $url ?>assets/js/vendor/jquery.js"></script>
+    <script src="<?php echo $url ?>assets/js/vendor/waypoints.js"></script>
+    <script src="<?php echo $url ?>assets/js/bootstrap-bundle.js"></script>
+    <script src="<?php echo $url ?>assets/js/meanmenu.js"></script>
+    <script src="<?php echo $url ?>assets/js/swiper-bundle.js"></script>
+    <script src="<?php echo $url ?>assets/js/slick.js"></script>
+    <script src="<?php echo $url ?>assets/js/range-slider.js"></script>
+    <script src="<?php echo $url ?>assets/js/magnific-popup.js"></script>
+    <script src="<?php echo $url ?>assets/js/nice-select.js"></script>
+    <script src="<?php echo $url ?>assets/js/purecounter.js"></script>
+    <script src="<?php echo $url ?>assets/js/countdown.js"></script>
+    <script src="<?php echo $url ?>assets/js/wow.js"></script>
+    <script src="<?php echo $url ?>assets/js/isotope-pkgd.js"></script>
+    <script src="<?php echo $url ?>assets/js/imagesloaded-pkgd.js"></script>
+    <script src="<?php echo $url ?>assets/js/ajax-form.js"></script>
+    <script src="<?php echo $url ?>assets/js/main.js"></script>
+    <script src="<?php echo $url ?>assets/js/login.js"></script>
 </body>
 
 </html>

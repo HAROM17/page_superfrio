@@ -3,12 +3,13 @@
 <!-- Icono -->
 <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo/icono.ico"></link>
 
-<link rel="stylesheet" href="assets/css/bootstrap.css"></link>
-<link rel="stylesheet" href="assets/css/animate.css"></link>
-<link rel="stylesheet" href="assets/css/swiper-bundle.css"></link>
-<link rel="stylesheet" href="assets/css/slick.css"></link>
-<link rel="stylesheet" href="assets/css/magnific-popup.css"></link>
-<link rel="stylesheet" href="assets/css/font-awesome-pro.css"></link>
-<link rel="stylesheet" href="assets/css/flaticon_shofy.css"></link>
-<link rel="stylesheet" href="assets/css/spacing.css"></link>
-<link rel="stylesheet" href="assets/css/main.css"></link>
+<link rel="stylesheet" href="<?php echo $url ?>assets/css/bootstrap.css"></link>
+<link rel="stylesheet" href="<?php echo $url ?>assets/css/animate.css"></link>
+<link rel="stylesheet" href="<?php echo $url ?>assets/css/swiper-bundle.css"></link>
+<link rel="stylesheet" href="<?php echo $url ?>assets/css/slick.css"></link>
+<link rel="stylesheet" href="<?php echo $url ?>assets/css/magnific-popup.css"></link>
+<link rel="stylesheet" href="<?php echo $url ?>assets/css/font-awesome-pro.css"></link>
+<link rel="stylesheet" href="<?php echo $url ?>assets/css/flaticon_shofy.css"></link>
+<link rel="stylesheet" href="<?php echo $url ?>assets/css/spacing.css"></link>
+<link rel="stylesheet" href="<?php echo $url ?>assets/css/main.css"></link>
+<link rel="stylesheet" href="<?php echo $url ?>assets/css/style.css"></link>
