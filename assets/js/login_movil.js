@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+/* document.addEventListener("DOMContentLoaded", function () {
     const accountLink = document.getElementById("accountLinkMovil");
 
     accountLink.addEventListener("click", function (event) {
@@ -9,3 +9,4 @@ document.addEventListener("DOMContentLoaded", function () {
         loginModal.show();
     });
 });
+ */
