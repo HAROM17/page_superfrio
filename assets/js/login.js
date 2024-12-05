@@ -12,13 +12,25 @@ document.addEventListener("DOMContentLoaded", function () {
             accountLink.addEventListener("click", function (event) {
                 event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
 
+                // Obtener el modal
+                const modalElement = document.getElementById("authModal");
+                const loginModal = new bootstrap.Modal(modalElement);
+
                 // Verificar si el usuario está autenticado
                 if (typeof isAuthenticated !== "undefined" && isAuthenticated) {
                     // Si está autenticado, redirigir al perfil
                     window.location.href = "profile.html";
                 } else {
-                    // Si no está autenticado, mostrar el modal
-                    const loginModal = new bootstrap.Modal(document.getElementById("authModal"));
+                    // Manejar aria-hidden para dispositivos móviles
+                    modalElement.addEventListener("shown.bs.modal", function () {
+                        modalElement.removeAttribute("aria-hidden");
+                    });
+
+                    modalElement.addEventListener("hidden.bs.modal", function () {
+                        modalElement.setAttribute("aria-hidden", "true");
+                    });
+
+                    // Mostrar el modal
                     loginModal.show();
                 }
             });

@@ -232,7 +232,7 @@
 
 
 <!-- Modal con pestañas para Iniciar Sesión y Crear Cuenta -->
-<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="false">
+<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header text-center d-flex justify-content-center">

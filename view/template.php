@@ -111,6 +111,7 @@
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script src="<?php echo $url ?>assets/js/vendor/jquery.js"></script>
     <script src="<?php echo $url ?>assets/js/vendor/waypoints.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="<?php echo $url ?>assets/js/bootstrap-bundle.js"></script>
     <script src="<?php echo $url ?>assets/js/meanmenu.js"></script>
     <script src="<?php echo $url ?>assets/js/swiper-bundle.js"></script>
