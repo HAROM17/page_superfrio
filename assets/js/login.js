@@ -1,31 +1,22 @@
 
+
+
 document.addEventListener("DOMContentLoaded", function () {
-    // Seleccionar botones de cuenta (PC y móvil)
-    const accountLinks = [
-        document.getElementById("accountLinkMovil"), // Para móvil
-        document.getElementById("accountLink"), // Para escritorio
-    ];
+    const accountLink = document.getElementById("accountLink");
 
-    // Iterar sobre los botones
-    accountLinks.forEach((accountLink) => {
-        if (accountLink) {
-            accountLink.addEventListener("click", function (event) {
-                event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+    accountLink.addEventListener("click", function (event) {
+        event.preventDefault(); // Evita el comportamiento predeterminado del enlace
 
-                // Verificar si el usuario está autenticado
-                if (typeof isAuthenticated !== "undefined" && isAuthenticated) {
-                    // Si está autenticado, redirigir al perfil
-                    window.location.href = "profile.html";
-                } else {
-                    // Si no está autenticado, mostrar el modal
-                    const loginModal = new bootstrap.Modal(document.getElementById("authModal"));
-                    loginModal.show();
-                }
-            });
+        if (isAuthenticated) {
+            // Redirigir a la página de perfil
+            window.location.href = "profile.html";
+        } else {
+            // Mostrar el modal de inicio de sesión
+            const loginModal = new bootstrap.Modal(document.getElementById("authModal"));
+            loginModal.show();
         }
     });
 });
-
 
 
 
