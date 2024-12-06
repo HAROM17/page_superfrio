@@ -22,66 +22,60 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // Manejar el formulario de registro manual 
-document.addEventListener("DOMContentLoaded", function () {
-    const registerForm = document.getElementById("registerForm");
+document.getElementById("registerForm").addEventListener("submit", function (e) {
+    e.preventDefault();
 
-    if (registerForm) {
-        registerForm.addEventListener("submit", function (e) {
-            e.preventDefault(); // Evita el comportamiento predeterminado del formulario
+    const formData = new FormData(this);
 
-            const formData = new FormData(this); // Captura los datos del formulario
+    fetch("controller/controller.cliente.php?op=register_cliente", {
+        method: "POST",
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Respuesta del servidor:", data);
 
-            fetch("controller/controller.cliente.php?op=register_cliente", {
-                method: "POST",
-                body: formData,
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log("Respuesta del servidor:", data);
+            if (data.success) {
+                // Cambiar automáticamente a la pestaña "Iniciar Sesión"
+                const loginTab = document.getElementById("login-tab"); // Seleccionar el botón de la pestaña de "Iniciar Sesión"
+                const registerTab = document.getElementById("register-tab");
 
-                    if (data.success) {
-                        // Cambiar automáticamente a la pestaña "Iniciar Sesión"
-                        const loginTab = document.getElementById("login-tab"); // Botón de "Iniciar Sesión"
-                        const registerTab = document.getElementById("register-tab");
+                // Activar la pestaña de "Iniciar Sesión"
+                loginTab.classList.add("active");
+                registerTab.classList.remove("active");
 
-                        // Activar la pestaña de "Iniciar Sesión"
-                        loginTab.classList.add("active");
-                        registerTab.classList.remove("active");
+                // Cambiar el contenido visible
+                document.getElementById("login").classList.add("show", "active");
+                document.getElementById("register").classList.remove("show", "active");
 
-                        // Cambiar el contenido visible
-                        document.getElementById("login").classList.add("show", "active");
-                        document.getElementById("register").classList.remove("show", "active");
+                // Limpia los campos del formulario
+                document.getElementById("registerForm").reset();
 
-                        // Limpia los campos del formulario
-                        registerForm.reset();
+                // Mostrar un mensaje de éxito
+                const loginAlert2 = document.getElementById("loginAlert2");
+                loginAlert2.textContent = "Cuenta creada exitosamente. Por favor, inicia sesión.";
+                loginAlert2.classList.remove("d-none");
 
-                        // Mostrar un mensaje de éxito
-                        const loginAlert2 = document.getElementById("loginAlert2");
-                        loginAlert2.textContent = "Cuenta creada exitosamente. Por favor, inicia sesión.";
-                        loginAlert2.classList.remove("d-none");
+                // Ocultar el mensaje después de 2 segundos
+                setTimeout(() => {
+                    loginAlert2.classList.add("d-none");
+                }, 5000);
+            } else {
+                // Mostrar mensaje de error en `loginAlert` debajo del formulario
+                const loginAlert = document.getElementById("loginAlert3");
+                loginAlert.textContent = data.message || "El correo ya está registrado. Intenta con otro.";
+                loginAlert.classList.remove("d-none");
 
-                        // Ocultar el mensaje después de 5 segundos
-                        setTimeout(() => {
-                            loginAlert2.classList.add("d-none");
-                        }, 5000);
-                    } else {
-                        // Mostrar mensaje de error
-                        const loginAlert = document.getElementById("loginAlert3");
-                        loginAlert.textContent = data.message || "El correo ya está registrado. Intenta con otro.";
-                        loginAlert.classList.remove("d-none");
-
-                        setTimeout(() => {
-                            loginAlert.classList.add("d-none");
-                        }, 5000);
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error en la solicitud:", error);
-                });
+                // Ocultar el mensaje de error después de 5 segundos (opcional)
+                setTimeout(() => {
+                    loginAlert.classList.add("d-none");
+                }, 5000);
+            }
+        })
+        .catch((error) => {
+            console.error("Error en la solicitud:", error);
         });
-    }
 });
-
 
 
 
