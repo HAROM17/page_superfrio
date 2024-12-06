@@ -314,7 +314,7 @@
                                 </div>
                             </div>
 
-                            <button type="button" class="btn btn-success w-100 mb-3" id="createAccountBtn">Crear Cuenta</button>
+                            <button type="submit" class="btn btn-success w-100 mb-3">Crear Cuenta</button>
                             <br>
                             <div class="form-group" style="display: flex; justify-content: center; align-items: center;">
                                 <div id="g_id_onload"

@@ -23,18 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Manejar el formulario de registro manual 
 document.addEventListener("DOMContentLoaded", function () {
-    // Evitar que el formulario se envíe al presionar Enter
-    document.getElementById("registerForm").addEventListener("keydown", function (e) {
-        if (e.key === "Enter") {
-            e.preventDefault(); // Evitar el envío del formulario
-        }
-    });
+    document.getElementById("registerForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // Detiene el comportamiento por defecto
 
-    // Manejar el clic en el botón para crear cuenta
-    document.getElementById("createAccountBtn").addEventListener("click", function (e) {
-        e.preventDefault(); // Prevenir el comportamiento por defecto
-
-        const formData = new FormData(document.getElementById("registerForm"));
+        const formData = new FormData(this);
 
         fetch("controller/controller.cliente.php?op=register_cliente", {
             method: "POST",
@@ -45,14 +37,15 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Respuesta del servidor:", data);
 
             if (data.success) {
-                // Cambiar a la pestaña de inicio de sesión
-                document.getElementById("login-tab").classList.add("active");
-                document.getElementById("register-tab").classList.remove("active");
+                // Cambiar a la pestaña "Iniciar Sesión"
+                const loginTab = document.getElementById("login-tab");
+                const registerTab = document.getElementById("register-tab");
+                loginTab.classList.add("active");
+                registerTab.classList.remove("active");
 
                 document.getElementById("login").classList.add("show", "active");
                 document.getElementById("register").classList.remove("show", "active");
 
-                // Limpiar el formulario
                 document.getElementById("registerForm").reset();
 
                 const loginAlert2 = document.getElementById("loginAlert2");
@@ -77,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
-
 
 
 
