@@ -84,6 +84,17 @@ document.getElementById("registerForm").addEventListener("submit", function (e) 
 document.getElementById("loginForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
+
+    const dni = document.getElementById("registerDNI").value;
+
+    if (dni.length !== 8 || isNaN(dni)) {
+        alert("El DNI debe tener 8 caracteres numéricos.");
+        return;
+    }
+
+    // Enviar el formulario si todas las validaciones son correctas
+    this.submit();
+
     const formData = new FormData(this);
 
     fetch("controller/controller.cliente.php?op=login_cliente", {
