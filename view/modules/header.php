@@ -286,7 +286,7 @@
 
                     <!-- Crear Cuenta -->
                     <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-                        <form id="registerForm">
+                        <form id="registerForm" onsubmit="return false;">
                             <div class="row mb-2">
                                 <div class="col">
                                     <label for="registerFirstName" class="form-label">Nombre</label>
