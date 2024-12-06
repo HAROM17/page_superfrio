@@ -286,7 +286,7 @@
 
                     <!-- Crear Cuenta -->
                     <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-                        <form id="registerForm" onsubmit="return true;">
+                        <form id="registerForm">
                             <div class="row mb-2">
                                 <div class="col">
                                     <label for="registerFirstName" class="form-label">Nombre</label>
@@ -314,7 +314,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-success w-100 mb-3">Crear Cuenta</button>
+                            <button type="button" class="btn btn-success w-100 mb-3" id="createAccountBtn">Crear Cuenta</button>
                             <br>
                             <div class="form-group" style="display: flex; justify-content: center; align-items: center;">
                                 <div id="g_id_onload"
