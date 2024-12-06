@@ -286,7 +286,7 @@
 
                     <!-- Crear Cuenta -->
                     <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-                        <form id="registerForm" method="POST">
+                        <form id="registerForm">
                             <div class="row mb-2">
                                 <div class="col">
                                     <label for="registerFirstName" class="form-label">Nombre</label>
@@ -300,7 +300,7 @@
                             <div class="row mb-3">
                                 <div class="col">
                                     <label for="registerDNI" class="form-label">DNI</label>
-                                    <input type="text" class="form-control" id="registerDNI" name="cli_dni" placeholder="Ingrese su DNI" required>
+                                    <input type="text" class="form-control" id="registerDNI" name="cli_dni" placeholder="Ingrese su DNI" pattern="\d{8}" title="El DNI debe contener exactamente 8 números" required>
                                 </div>
                                 <div class="col">
                                     <label for="registerPassword" class="form-label">Contraseña</label>

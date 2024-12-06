@@ -1,19 +1,27 @@
 
-
-
 document.addEventListener("DOMContentLoaded", function () {
-    const accountLink = document.getElementById("accountLink");
+    // Seleccionar botones de cuenta (PC y móvil)
+    const accountLinks = [
+        document.getElementById("accountLinkMovil"), // Para móvil
+        document.getElementById("accountLink"), // Para escritorio
+    ];
 
-    accountLink.addEventListener("click", function (event) {
-        event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+    // Iterar sobre los botones
+    accountLinks.forEach((accountLink) => {
+        if (accountLink) {
+            accountLink.addEventListener("click", function (event) {
+                event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
 
-        if (isAuthenticated) {
-            // Redirigir a la página de perfil
-            window.location.href = "profile.html";
-        } else {
-            // Mostrar el modal de inicio de sesión
-            const loginModal = new bootstrap.Modal(document.getElementById("authModal"));
-            loginModal.show();
+                // Verificar si el usuario está autenticado
+                if (typeof isAuthenticated !== "undefined" && isAuthenticated) {
+                    // Si está autenticado, redirigir al perfil
+                    window.location.href = "profile.html";
+                } else {
+                    // Si no está autenticado, mostrar el modal
+                    const loginModal = new bootstrap.Modal(document.getElementById("authModal"));
+                    loginModal.show();
+                }
+            });
         }
     });
 });
@@ -83,17 +91,6 @@ document.getElementById("registerForm").addEventListener("submit", function (e) 
 // Manejar el formulario de inicio de sesión
 document.getElementById("loginForm").addEventListener("submit", function (e) {
     e.preventDefault();
-
-
-    const dni = document.getElementById("registerDNI").value;
-
-    if (dni.length !== 8 || isNaN(dni)) {
-        alert("El DNI debe tener 8 caracteres numéricos.");
-        return;
-    }
-
-    // Enviar el formulario si todas las validaciones son correctas
-    this.submit();
 
     const formData = new FormData(this);
 
