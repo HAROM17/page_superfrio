@@ -28,11 +28,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
     const loginPromptButton = document.getElementById("loginPromptButton");
+    const loginPromptButton2 = document.getElementById("loginPromptButton2");
     const cartButton = document.getElementById("cartButton");
 
     // Botón para clientes no autenticados
     if (loginPromptButton) {
         loginPromptButton.addEventListener("click", function () {
+            // Mostrar modal de inicio de sesión
+            const loginModal = new bootstrap.Modal(document.getElementById("authModal"));
+            loginModal.show();
+        });
+    }
+
+    // Botón para clientes no autenticados
+    if (loginPromptButton2) {
+        loginPromptButton2.addEventListener("click", function () {
             // Mostrar modal de inicio de sesión
             const loginModal = new bootstrap.Modal(document.getElementById("authModal"));
             loginModal.show();
@@ -45,25 +55,24 @@ document.addEventListener("DOMContentLoaded", function () {
             // Mostrar el carrito (puedes agregar aquí la lógica para desplegar el mini carrito)
         });
 
-        // Cargar la cantidad de productos en el carrito
-        fetch("controller/controller.carrito.php?op=get_cart_count")
-            .then(response => response.json())
-            .then(data => {
-                const cartCount = document.getElementById("cartCount1");
-                if (data.success) {
-                    cartCount.textContent = data.count; // Actualizar la insignia
-                }
-            })
-            .catch(error => console.error("Error al obtener el conteo del carrito:", error));
-        
-        fetch("controller/controller.carrito.php?op=get_cart_count")
-        .then(response => response.json())
-        .then(data => {
-            const cartCount = document.getElementById("cartCount2");
-            if (data.success) {
-                cartCount.textContent = data.count; // Actualizar la insignia
-            }
-        })
-        .catch(error => console.error("Error al obtener el conteo del carrito:", error));
+        // Función para actualizar los contadores del carrito
+        const updateCartCount = () => {
+            fetch("controller/controller.carrito.php?op=get_cart_count")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Actualizar ambos contadores
+                        const cartCounts = document.querySelectorAll("[data-cart-count]");
+                        cartCounts.forEach(countElement => {
+                            countElement.textContent = data.count;
+                        });
+                    }
+                })
+                .catch(error => console.error("Error al obtener el conteo del carrito:", error));
+        };
+
+        // Llamar a la función para actualizar los contadores
+        updateCartCount();
     }
 });
+
