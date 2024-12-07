@@ -24,13 +24,13 @@
 
             <!-- Wishlist -->
             <div class="col">
-    <div class="tp-mobile-item text-center">
-        <a href="#" id="wishlistLink" class="tp-mobile-item-btn">
-            <i class="flaticon-love"></i>
-            <span>Favoritos</span>
-        </a>
-    </div>
-</div>
+                <div class="tp-mobile-item text-center">
+                    <a href="#" id="FavoritosLink" class="tp-mobile-item-btn">
+                        <i class="flaticon-love"></i>
+                        <span>Favoritos</span>
+                    </a>
+                </div>
+            </div>
 
 
             <!-- Account -->
