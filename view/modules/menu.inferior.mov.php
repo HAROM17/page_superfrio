@@ -24,13 +24,14 @@
 
             <!-- Wishlist -->
             <div class="col">
-                <div class="tp-mobile-item text-center">
-                    <a href="wishlist.html" class="tp-mobile-item-btn">
-                        <i class="flaticon-love"></i>
-                        <span>Favoritos</span>
-                    </a>
-                </div>
-            </div>
+    <div class="tp-mobile-item text-center">
+        <a href="#" id="wishlistLink" class="tp-mobile-item-btn">
+            <i class="flaticon-love"></i>
+            <span>Favoritos</span>
+        </a>
+    </div>
+</div>
+
 
             <!-- Account -->
             <div class="col">
@@ -39,8 +40,12 @@
                         <!-- Si el usuario está autenticado -->
                         <div class="dropdown">
                             <a href="#" class="tp-mobile-item-btn dropdown-toggle no-caret" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="<?php echo $url_back ?>assets/imagenes/clientes/<?= $_SESSION['cli_img']; ?>"
-                                    alt="Foto de Perfil" style="width: 40px; height: 40px; border-radius: 50%;">
+                                <?php if (isset($_SESSION['cli_img']) && !empty($_SESSION['cli_img'])): ?>
+                                    <img src="<?php echo $url_back ?>assets/imagenes/clientes/<?= $_SESSION['cli_img']; ?>"
+                                        alt="Foto de Perfil" style="width: 40px; height: 40px; border-radius: 50%;">
+                                <?php else: ?>
+                                    <i class="flaticon-user"></i>
+                                <?php endif; ?>
                                 <span><?= $_SESSION['cli_nom'] ?? 'Usuario'; ?></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="userDropdown">
@@ -57,6 +62,7 @@
                     <?php endif; ?>
                 </div>
             </div>
+
 
 
             <!-- Menu -->
