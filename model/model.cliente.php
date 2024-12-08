@@ -27,7 +27,6 @@ class Cliente extends Conectar {
     public function get_cliente_x_correo($cli_correo, $emp_id) {
         $conectar = parent::conexion();
         parent::set_names();
-    
         $sql = "SELECT 
                     tm_cliente.cli_id, 
                     tm_cliente.emp_id, 

@@ -127,6 +127,7 @@
     <script src="<?php echo $url ?>assets/js/main.js"></script>
     <script src="<?php echo $url ?>assets/js/login.js"></script>
     <script src="<?php echo $url ?>assets/js/menu_movil.js"></script>
+    <script src="<?php echo $url ?>assets/js/producto.js"></script>
 </body>
 
 </html>
