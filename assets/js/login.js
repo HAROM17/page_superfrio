@@ -2,6 +2,7 @@
 function init() {}
 
 document.addEventListener("DOMContentLoaded", function () {
+    const isAuthenticated = document.body.dataset.isAuthenticated === "true";
     const accountLink = document.getElementById("accountLink");
 
     accountLink.addEventListener("click", function (event) {

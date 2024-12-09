@@ -1,4 +1,3 @@
 .no-caret::after {
     display: none !important; /* Oculta el ícono de flecha */
 }
-

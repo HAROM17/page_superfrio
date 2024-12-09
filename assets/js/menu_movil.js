@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const isAuthenticated = document.body.dataset.isAuthenticated === "true";
     const accountLink = document.getElementById("accountLinkMovil");
     const FavoritosLink = document.getElementById("FavoritosLink");
 

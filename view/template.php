@@ -19,7 +19,7 @@
     <?php require_once("modules/head.php")?>
 </head>
 
-<body>
+<body data-is-authenticated="<?= isset($_SESSION['cli_id']) ? 'true' : 'false' ?>">
     <div id="loading">
         <div id="loading-center">
             <div id="loading-center-absolute">
