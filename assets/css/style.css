@@ -1,3 +1,21 @@
 .no-caret::after {
     display: none !important; /* Oculta el ícono de flecha */
 }
+
+
+#authModal {
+    z-index: 1060; /* Asegúrate de que sea más alto que el modal de producto */
+}
+
+.modal-backdrop.show:nth-of-type(2) {
+    z-index: 1059; /* La superposición del segundo modal debe estar detrás de este */
+}
+
+
+.circle-img {
+    width: 150px; /* Asegúrate de que el ancho y la altura sean iguales */
+    height: 150px;
+    border-radius: 50%; /* Hace que los bordes sean redondos */
+    object-fit: cover; /* Asegura que la imagen se recorte correctamente en el círculo */
+}
+

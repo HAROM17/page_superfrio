@@ -11,7 +11,7 @@
                                     <div class="tp-footer-logo">
                                         <a href="index.html">
                                             <img
-                                                src="assets/img/logo/logo.svg"
+                                                src="<?php echo $url ?>assets/img/logo/logo.svg"
                                                 alt="logo">
                                         </a>
                                     </div>
@@ -237,7 +237,7 @@
                                 <div class="tp-footer-payment text-md-end">
                                     <p>
                                         <img
-                                            src="assets/img/footer/footer-pay.png"
+                                            src="<?php echo $url ?>assets/img/footer/footer-pay.png"
                                             alt="">
                                     </p>
                                 </div>

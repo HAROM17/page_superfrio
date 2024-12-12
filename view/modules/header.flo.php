@@ -4,8 +4,8 @@
             <div class="row align-items-center">
                 <div class="col-xl-3 col-lg-3 col-md-3 col-6">
                     <div class="logo">
-                        <a href="index.html">
-                            <img src="assets/img/logo/superfrio.png" alt="logo" height="45">
+                        <a href="<?php echo $url ?>">
+                            <img src="<?php echo $url ?>assets/img/logo/superfrio.png" alt="logo" height="45">
                         </a>
                     </div>
                 </div>
@@ -13,7 +13,7 @@
                     <div class="tp-header-sticky-menu main-menu menu-style-1">
                         <nav id="mobile-menu">
                             <ul>
-                                <li><a href="index.php">Inicio</a></li>
+                                <li><a href="<?php echo $url ?>">Inicio</a></li>
                                 <li class="has-dropdown has-mega-menu">
                                     <a href="shop.html">Productos</a>
 

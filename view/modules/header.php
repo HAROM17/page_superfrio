@@ -32,7 +32,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -44,8 +43,8 @@
                 <div class="row align-items-center">
                     <div class="col-xl-2 col-lg-2 col-md-4 col-6">
                         <div class="logo">
-                            <a href="index.html">
-                                <img src="assets/img/logo/superfrio.png" alt="logo" height="45">
+                            <a href="<?php echo $url ?>">
+                                <img src="<?php echo $url ?>assets/img/logo/superfrio.png" alt="logo" height="45">
                             </a>
                         </div>
                     </div>
@@ -190,34 +189,21 @@
                                     <ul>
                                         <li><a href="<?php echo $url ?>">Inicio</a></li>
                                         <li class="has-dropdown has-mega-menu">
-                                            <a href="<?php echo $url ?>">Productos</a>
+                                            <a href="<?php echo $url ?>view/shop/">Productos</a>
 
                                             <ul class="tp-submenu tp-mega-menu mega-menu-style-2">
                                                 <!-- first col -->
-
+                                                
                                                 <li class="has-dropdown">
-                                                    <a href="shop.html" class="mega-menu-title">Helados Artesanales</a>
+                                                    <a href="shop.html" class="mega-menu-title">cateoria 1</a>
                                                     <ul class="tp-submenu">
-                                                        <li><a href="shop-category.html">Clasi Cream</a></li>
-                                                        <li><a href="shop-filter-offcanvas.html">Premiun Cream</a></li>
-                                                        <li><a href="shop.html">Super Escolar</a></li>
-                                                        <li><a href="shop-list.html">Tropica Ice</a></li>
-                                                    </ul>
-                                                </li>
-
-                                                <!-- third col -->
-
-                                                <li class="has-dropdown">
-                                                    <a href="product-details.html" class="mega-menu-title">Helados Industriales</a>
-                                                    <ul class="tp-submenu">
-                                                        <li><a href="product-details.html">Bañaños</a></li>
-                                                        <li><a href="product-details-video.html">Hiela Zoos</a></li>
-                                                        <li><a href="product-details-countdown.html">Pincipes</a></li>
-                                                        <li><a href="product-details-presentation.html">Torbellino</a></li>
+                                                        <li><a href="subcategoria/">subcat 1</a></li>
                                                     </ul>
                                                 </li>
                                             </ul>
                                         </li>
+
+                                        
 
                                         <li><a href="galeria.html">Galeria</a></li>
                                         <li><a href="coupon.html">Acerca de nosotros</a></li>

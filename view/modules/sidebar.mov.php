@@ -12,7 +12,7 @@
                 <div class="offcanvas__top mb-70 d-flex justify-content-between align-items-center">
                     <div class="offcanvas__logo logo">
                         <a href="index.html">
-                            <img src="assets/img/logo/superfrio.png" alt="logo" height="60">
+                            <img src="<?php echo $url ?>assets/img/logo/superfrio.png" alt="logo" height="60">
                         </a>
                     </div>
                 </div>

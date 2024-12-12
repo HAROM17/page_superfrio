@@ -6,54 +6,140 @@ class Producto extends Conectar
 
     public function getNewProducts($emp_id, $cli_id)
     {
-        $conectar = parent::Conexion(); // Establecer conexión
-        $sql = "CALL sp_l_producto_07_nuevo(?, ?)"; // Procedimiento almacenado
+        $conectar = parent::Conexion();
+        $sql = "CALL sp_l_producto_07_nuevo(?, ?)";
         $query = $conectar->prepare($sql);
-        $query->bindValue(1, $emp_id, PDO::PARAM_INT); // Enlazar el parámetro de empresa
-        $query->bindValue(2, $cli_id, PDO::PARAM_INT); // Enlazar el parámetro de cliente
+        $query->bindValue(1, $emp_id, PDO::PARAM_INT);
+        $query->bindValue(2, $cli_id, PDO::PARAM_INT);
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC); // Retornar los resultados
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
-    
 
-    public function addToWishlist($cli_id, $prod_id, $emp_id) {
+    public function GetProductsAll($emp_id, $cli_id)
+    {
         $conectar = parent::Conexion();
-    
-        // Verificar si el producto ya está en favoritos
-        $check_sql = "SELECT COUNT(*) AS count FROM tm_favoritos WHERE cli_id = ? AND prod_id = ? AND emp_id = ?";
-        $check_query = $conectar->prepare($check_sql);
-        $check_query->bindValue(1, $cli_id, PDO::PARAM_INT);
-        $check_query->bindValue(2, $prod_id, PDO::PARAM_INT);
-        $check_query->bindValue(3, $emp_id, PDO::PARAM_INT);
-        $check_query->execute();
-        $result = $check_query->fetch(PDO::FETCH_ASSOC);
-    
-        if ($result['count'] > 0) {
-            return false; // Producto ya está en favoritos
-        }
-    
-        // Si no está en favoritos, agregarlo
-        $sql = "INSERT INTO tm_favoritos (cli_id, prod_id, emp_id, fech_crea) VALUES (?, ?, ?, NOW())";
+        $sql = "CALL sp_l_producto_08_all(?, ?)";
+        $query = $conectar->prepare($sql);
+        $query->bindValue(1, $emp_id, PDO::PARAM_INT);
+        $query->bindValue(2, $cli_id, PDO::PARAM_INT);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getProductDetails($prod_id, $emp_id)
+    {
+        $conectar = parent::conexion();
+
+        $sql = "SELECT 
+                    p.prod_id,
+                    p.prod_nom,
+                    p.prod_precio,
+                    p.prod_img,
+                    p.prod_stock,
+                    p.prod_descrip,
+                    c.cat_nom AS category,
+                    s.sab_nom AS flavor,
+                    sm.subcat_nom AS sub_brand
+                FROM 
+                    tm_producto p
+                LEFT JOIN 
+                    tm_categoria c ON p.cat_id = c.cat_id
+                LEFT JOIN 
+                    tm_sabor s ON p.sab_id = s.sab_id
+                LEFT JOIN 
+                    tm_subcategoria sm ON p.subcat_id = sm.subcat_id
+                WHERE 
+                    p.prod_id = ? AND p.emp_id = ?";
+
+        $query = $conectar->prepare($sql);
+        $query->bindValue(1, $prod_id, PDO::PARAM_INT);
+        $query->bindValue(2, $emp_id, PDO::PARAM_INT);
+        $query->execute();
+
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    public function getSubcategoriesWithFlavorCount($emp_id)
+    {
+        $conectar = parent::conexion();
+        $sql = "SELECT 
+                    sm.subcat_id,
+                    sm.subcat_nom AS subcategory_name,
+                    sm.subcat_img AS subcategory_image,
+                    COUNT(s.sab_id) AS flavor_count
+                FROM tm_subcategoria sm
+                LEFT JOIN tm_producto p ON sm.subcat_id = p.subcat_id
+                LEFT JOIN tm_sabor s ON p.sab_id = s.sab_id
+                WHERE sm.emp_id = ? AND sm.est = 1
+                GROUP BY sm.subcat_id";
+        $query = $conectar->prepare($sql);
+        $query->bindValue(1, $emp_id, PDO::PARAM_INT);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getProductsBySubcategory($emp_id, $subcat_id, $cli_id = null)
+    {
+        $conectar = parent::conexion();
+        $sql = " SELECT 
+            p.prod_id,          
+            p.prod_nom,         
+            p.prod_precio,      
+            p.prod_img,         
+            c.cat_nom AS categoria, 
+            s.sab_nom AS sabor,  
+            sm.subcat_nom AS sub_marca, 
+            CASE
+                WHEN f.cli_id IS NOT NULL THEN 1 
+                ELSE 0
+            END AS is_favorited
+        FROM 
+            tm_producto p
+        LEFT JOIN 
+            tm_categoria c ON p.cat_id = c.cat_id  
+        LEFT JOIN 
+            tm_sabor s ON p.sab_id = s.sab_id 
+        LEFT JOIN 
+            tm_subcategoria sm ON p.subcat_id = sm.subcat_id 
+        LEFT JOIN 
+            tm_favoritos f ON p.prod_id = f.prod_id AND f.cli_id = IFNULL(?, 0) AND f.emp_id = ?
+        WHERE 
+            p.subcat_id = ? 
+            AND p.est = 1   
+            AND p.emp_id = ? 
+            AND (p.prod_img IS NOT NULL AND p.prod_img <> '')
+        ORDER BY 
+            p.fech_crea DESC; 
+    ";
         $query = $conectar->prepare($sql);
         $query->bindValue(1, $cli_id, PDO::PARAM_INT);
-        $query->bindValue(2, $prod_id, PDO::PARAM_INT);
-        $query->bindValue(3, $emp_id, PDO::PARAM_INT);
-        return $query->execute();
+        $query->bindValue(2, $emp_id, PDO::PARAM_INT);
+        $query->bindValue(3, $subcat_id, PDO::PARAM_INT);
+        $query->bindValue(4, $emp_id, PDO::PARAM_INT);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
-    
 
 
-    public function removeFromWishlist($cli_id, $prod_id, $emp_id) {
+    public function getCategoriasConSubcategorias($emp_id) {
         $conectar = parent::Conexion();
-    
-        // Eliminar el producto de favoritos
-        $sql = "DELETE FROM tm_favoritos WHERE cli_id = ? AND prod_id = ? AND emp_id = ?";
+        $sql = "SELECT 
+                    c.cat_id AS categoria_id,
+                    c.cat_nom AS categoria_nombre,
+                    sc.subcat_id AS subcategoria_id,
+                    sc.subcat_nom AS subcategoria_nombre
+                FROM tm_categoria c
+                LEFT JOIN tm_subcategoria sc 
+                    ON c.cat_id = sc.cat_id AND sc.est = 1
+                WHERE c.emp_id = ? AND c.est = 1
+                ORDER BY c.cat_nom, sc.subcat_nom";
         $query = $conectar->prepare($sql);
-        $query->bindValue(1, $cli_id, PDO::PARAM_INT);
-        $query->bindValue(2, $prod_id, PDO::PARAM_INT);
-        $query->bindValue(3, $emp_id, PDO::PARAM_INT);
-        return $query->execute();
+        $query->bindValue(1, $emp_id, PDO::PARAM_INT);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+    
     
     
     

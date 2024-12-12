@@ -26,24 +26,28 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="cartmini__empty text-center d-none">
+                    <img src="assets/img/product/cartmini/empty-cart.png" alt="">
+                    <p>Tu Carrito Esta Vacio</p>
+                    <a href="shop.html" class="tp-btn">Comprar</a>
+                </div>
                 <!-- Cart Items -->
                 <div class="cartmini__widget">
                     <div class="cartmini__widget-item">
                         <!-- Product imagen -->
                         <div class="cartmini__thumb">
                             <a href="product-details.html">
-                                <img src="assets/img/product/product-222.jpg" alt="">
+                                <img src="" alt="">
                             </a>
                         </div>
                         <!-- detalle producto -->
                         <div class="cartmini__content">
                             <h5 class="cartmini__title">
-                                <a href="product-details.html">Chupete De Manzana</a>
+                                <a href="#"></a>
                             </h5>
                             <div class="cartmini__price-wrapper">
-                                <span class="cartmini__price">S/. 5.00</span>
-                                <span class="cartmini__quantity">x40</span>
+                                <span class="cartmini__price"></span>
+                                <span class="cartmini__quantity"></span>
                             </div>
                         </div>
                         <!-- Delete Button -->
@@ -51,59 +55,6 @@
                             <i class="fa-regular fa-xmark"></i>
                         </a>
                     </div>
-
-                    <div class="cartmini__widget-item">
-                        <!-- Product imagen -->
-                        <div class="cartmini__thumb">
-                            <a href="product-details.html">
-                                <img src="assets/img/product/product-22.jpg" alt="">
-                            </a>
-                        </div>
-                        <!-- detalle producto -->
-                        <div class="cartmini__content">
-                            <h5 class="cartmini__title">
-                                <a href="product-details.html">Chupete De Bainilla Con chocolate</a>
-                            </h5>
-                            <div class="cartmini__price-wrapper">
-                                <span class="cartmini__price">S/. 3.00</span>
-                                <span class="cartmini__quantity">x10</span>
-                            </div>
-                        </div>
-                        <!-- Delete Button -->
-                        <a href="#" class="cartmini__del">
-                            <i class="fa-regular fa-xmark"></i>
-                        </a>
-                    </div>
-
-                    <div class="cartmini__widget-item">
-                        <!-- Product imagen -->
-                        <div class="cartmini__thumb">
-                            <a href="product-details.html">
-                                <img src="assets/img/product/product-1.jpg" alt="">
-                            </a>
-                        </div>
-                        <!-- detalle producto -->
-                        <div class="cartmini__content">
-                            <h5 class="cartmini__title">
-                                <a href="product-details.html">Chupete De Chocolate</a>
-                            </h5>
-                            <div class="cartmini__price-wrapper">
-                                <span class="cartmini__price">S/. 3.00</span>
-                                <span class="cartmini__quantity">x10</span>
-                            </div>
-                        </div>
-                        <!-- Delete Button -->
-                        <a href="#" class="cartmini__del">
-                            <i class="fa-regular fa-xmark"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Hcer Un If   -->
-                <div class="cartmini__empty text-center d-none">
-                    <img src="assets/img/product/cartmini/empty-cart.png" alt="">
-                    <p>Tu Carrito Esta Vacio</p>
-                    <a href="shop.html" class="tp-btn">Comprar</a>
                 </div>
             </div>
 
