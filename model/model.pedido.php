@@ -81,18 +81,18 @@ class Pedido extends Conectar {
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, [
-            'voucher_name' => $fileName,
-            'voucher_file' => new CURLFile($imageFile['tmp_name'], $imageFile['type'], $fileName),
+            'voucher_name' => $fileName, // Nombre del archivo en el servidor
+            'voucher_file' => new CURLFile($imageFile['tmp_name'], $imageFile['type'], $fileName), // Archivo a enviar
         ]);
     
-        $response = curl_exec($ch);
+        $response = curl_exec($ch); // Ejecuta la solicitud
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
     
         if ($httpCode === 200) {
             $result = json_decode($response, true);
             if ($result && $result['success']) {
-                return $fileName; // Retornar el nombre del archivo si se subió correctamente
+                return $fileName; // Retorna el nombre del archivo si fue exitoso
             }
         }
     
