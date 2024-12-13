@@ -192,18 +192,38 @@
                                             <a href="<?php echo $url ?>view/shop/">Productos</a>
 
                                             <ul class="tp-submenu tp-mega-menu mega-menu-style-2">
-                                                <!-- first col -->
-                                                
-                                                <li class="has-dropdown">
-                                                    <a href="shop.html" class="mega-menu-title">cateoria 1</a>
-                                                    <ul class="tp-submenu">
-                                                        <li><a href="subcategoria/">subcat 1</a></li>
-                                                    </ul>
-                                                </li>
+                                                <?php
+                                                require_once __DIR__ . '/../../model/model.producto.php';
+
+                                                $categoriaModel = new Producto();
+                                                $categorias = $categoriaModel->getCategoriasConSubcategorias(1); // Ajusta el ID de empresa según corresponda
+
+                                                if ($categorias) {
+                                                    foreach ($categorias as $categoria) {
+                                                        echo '<li class="has-dropdown">';
+                                                        echo '<a href="' . $url . 'view/categorias/?cat_id=' . htmlspecialchars($categoria['categoria_id']) . '" class="mega-menu-title">' . htmlspecialchars($categoria['categoria_nombre']) . '</a>';
+                                                        echo '<ul class="tp-submenu">';
+
+                                                        if (!empty($categoria['subcategorias'])) {
+                                                            foreach ($categoria['subcategorias'] as $subcategoria) {
+                                                                echo '<li><a href="' . $url . 'view/categoria/?subcat_id=' . htmlspecialchars($subcategoria['subcategoria_id']) . '">' . htmlspecialchars($subcategoria['subcategoria_nombre']) . '</a></li>';
+                                                            }
+                                                        } else {
+                                                            echo '<li><a href="#">Sin Subcategorías</a></li>';
+                                                        }
+
+                                                        echo '</ul>';
+                                                        echo '</li>';
+                                                    }
+                                                } else {
+                                                    echo '<li><a href="#">No hay categorías disponibles</a></li>';
+                                                }
+                                                ?>
                                             </ul>
+
                                         </li>
 
-                                        
+
 
                                         <li><a href="galeria.html">Galeria</a></li>
                                         <li><a href="coupon.html">Acerca de nosotros</a></li>

@@ -6,8 +6,6 @@ require_once("../../config/conexion.php");
 $url = Conectar::ruta();
 $url_back = Conectar::ruta_back();
 
-
-
 ?>
 
 <!doctype html>
@@ -91,7 +89,7 @@ $url_back = Conectar::ruta_back();
 
     <script src="<?php echo $url ?>assets/js/template2/login2.js"></script>
     <script src="<?php echo $url ?>assets/js/template2/menu_movil2.js"></script>
-    <script src="shop.js"></script>
+    <script src="categorias.js"></script>
 
 </body>
 

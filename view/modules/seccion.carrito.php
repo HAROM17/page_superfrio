@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="cartmini__empty text-center d-none">
-                    <img src="assets/img/product/cartmini/empty-cart.png" alt="">
+                    <img src="<?php echo $url ?>assets/img/product/cartmini/empty-cart.png" alt="">
                     <p>Tu Carrito Esta Vacio</p>
                     <a href="shop.html" class="tp-btn">Comprar</a>
                 </div>
@@ -67,7 +67,7 @@
                 </div>
                 <!-- Checkout Buttons -->
                 <div class="cartmini__checkout-btn">
-                    <a href="cart.html" class="tp-btn mb-10 w-100">Ver Carrito</a>
+                    <a href="<?php echo $url ?>view/carrito/" class="tp-btn mb-10 w-100">Ver Carrito</a>
                     <a href="checkout.html" class="tp-btn tp-btn-border w-100">checkout</a>
                 </div>
             </div>

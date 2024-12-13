@@ -94,6 +94,36 @@ class Carrito extends Conectar {
         $query->bindValue(1, $carrito_id, PDO::PARAM_INT);
         return $query->execute();
     }
+
+
+    public function updateCartItems($items, $cli_id, $emp_id) {
+        $conectar = parent::conexion();
+        $conectar->beginTransaction(); // Inicia una transacción
+    
+        try {
+            foreach ($items as $item) {
+                $sql = "UPDATE tm_carrito 
+                        SET cantidad = ? 
+                        WHERE carrito_id = ? AND cli_id = ? AND emp_id = ?";
+                $query = $conectar->prepare($sql);
+                $query->bindValue(1, $item['cantidad'], PDO::PARAM_INT); // Nueva cantidad
+                $query->bindValue(2, $item['carrito_id'], PDO::PARAM_INT); // ID del carrito
+                $query->bindValue(3, $cli_id, PDO::PARAM_INT); // ID del cliente desde la sesión
+                $query->bindValue(4, $emp_id, PDO::PARAM_INT); // ID de la empresa desde la sesión
+                $query->execute();
+            }
+    
+            $conectar->commit(); // Confirma los cambios
+            return ["success" => true];
+        } catch (Exception $e) {
+            $conectar->rollBack(); // Revertir cambios en caso de error
+            return ["success" => false, "message" => $e->getMessage()];
+        }
+    }
+    
+    
+    
+    
     
 }
 

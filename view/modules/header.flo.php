@@ -15,32 +15,36 @@
                             <ul>
                                 <li><a href="<?php echo $url ?>">Inicio</a></li>
                                 <li class="has-dropdown has-mega-menu">
-                                    <a href="shop.html">Productos</a>
+                                    <a href="<?php echo $url ?>view/shop/">Productos</a>
 
                                     <ul class="tp-submenu tp-mega-menu mega-menu-style-2">
-                                        <!-- first col -->
+                                        <?php
+                                        require_once __DIR__ . '/../../model/model.producto.php';
 
-                                        <li class="has-dropdown">
-                                            <a href="shop.html" class="mega-menu-title">Helados Artesanales</a>
-                                            <ul class="tp-submenu">
-                                                <li><a href="shop-category.html">Clasi Cream</a></li>
-                                                <li><a href="shop-filter-offcanvas.html">Premiun Cream</a></li>
-                                                <li><a href="shop.html">Super Escolar</a></li>
-                                                <li><a href="shop-list.html">Tropica Ice</a></li>
-                                            </ul>
-                                        </li>
+                                        $categoriaModel = new Producto();
+                                        $categorias = $categoriaModel->getCategoriasConSubcategorias(1); // Ajusta el ID de empresa según corresponda
 
-                                        <!-- third col -->
+                                        if ($categorias) {
+                                            foreach ($categorias as $categoria) {
+                                                echo '<li class="has-dropdown">';
+                                                echo '<a href="' . $url . 'view/categorias/?cat_id=' . htmlspecialchars($categoria['categoria_id']) . '" class="mega-menu-title">' . htmlspecialchars($categoria['categoria_nombre']) . '</a>';
+                                                echo '<ul class="tp-submenu">';
 
-                                        <li class="has-dropdown">
-                                            <a href="product-details.html" class="mega-menu-title">Helados Industriales</a>
-                                            <ul class="tp-submenu">
-                                                <li><a href="product-details.html">Bañaños</a></li>
-                                                <li><a href="product-details-video.html">Hiela Zoos</a></li>
-                                                <li><a href="product-details-countdown.html">Pincipes</a></li>
-                                                <li><a href="product-details-presentation.html">Torbellino</a></li>
-                                            </ul>
-                                        </li>
+                                                if (!empty($categoria['subcategorias'])) {
+                                                    foreach ($categoria['subcategorias'] as $subcategoria) {
+                                                        echo '<li><a href="' . $url . 'view/categoria/?subcat_id=' . htmlspecialchars($subcategoria['subcategoria_id']) . '">' . htmlspecialchars($subcategoria['subcategoria_nombre']) . '</a></li>';
+                                                    }
+                                                } else {
+                                                    echo '<li><a href="#">Sin Subcategorías</a></li>';
+                                                }
+
+                                                echo '</ul>';
+                                                echo '</li>';
+                                            }
+                                        } else {
+                                            echo '<li><a href="#">No hay categorías disponibles</a></li>';
+                                        }
+                                        ?>
                                     </ul>
                                 </li>
 

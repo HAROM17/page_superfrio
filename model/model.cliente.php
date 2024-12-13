@@ -146,6 +146,20 @@ class Cliente extends Conectar {
         return false; // Retorna false si falla
     }
 
+
+    public function getCliente($cli_id, $emp_id) {
+        $conectar = parent::Conexion();
+        $sql = "SELECT cli_nom, cli_ape, cli_dni, cli_telf, cli_direc, cli_correo 
+                FROM tm_cliente 
+                WHERE cli_id = ? AND emp_id = ? AND est = 1";
+        $query = $conectar->prepare($sql);
+        $query->bindValue(1, $cli_id, PDO::PARAM_INT);
+        $query->bindValue(2, $emp_id, PDO::PARAM_INT);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+    
+
 }
 
 ?>

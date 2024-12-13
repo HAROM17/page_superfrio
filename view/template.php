@@ -87,7 +87,6 @@
     <script src="https://accounts.google.com/gsi/client" async></script>
     <?php require_once("modules/js.php") ?>
     <script src="<?php echo $url ?>assets/js/template/login.js"></script>
-    <script src="<?php echo $url ?>assets/js/template/categorias.js"></script>
     <script src="<?php echo $url ?>assets/js/template/menu_movil.js"></script>
     <script src="<?php echo $url ?>assets/js/template/producto.js"></script>
 </body>

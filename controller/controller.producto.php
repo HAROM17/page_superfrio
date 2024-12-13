@@ -84,7 +84,7 @@
                 ]);
             }
             break;
-
+            
 
         case 'get_products_by_subcategory':
             session_start();
@@ -93,6 +93,21 @@
             $cli_id = isset($_SESSION['cli_id']) ? $_SESSION['cli_id'] : null;
         
             $products = $producto->getProductsBySubcategory($emp_id, $subcat_id, $cli_id);
+            $ruta_base = Conectar::ruta_back();
+            echo json_encode([
+                'success' => true,
+                'ruta_base' => $ruta_base,
+                'products' => $products,
+            ]);
+            break;
+
+        case 'get_products_by_category':
+            session_start();
+            $emp_id = $_POST['emp_id'];
+            $cat_id = $_POST['cat_id'];
+            $cli_id = isset($_SESSION['cli_id']) ? $_SESSION['cli_id'] : null;
+        
+            $products = $producto->getProductsByCategory($emp_id, $cat_id, $cli_id);
             $ruta_base = Conectar::ruta_back();
             echo json_encode([
                 'success' => true,

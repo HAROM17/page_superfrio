@@ -122,6 +122,49 @@ class Producto extends Conectar
     }
 
 
+    public function getProductsByCategory($emp_id, $cat_id, $cli_id = null)
+    {
+        $conectar = parent::conexion();
+        $sql = " SELECT 
+            p.prod_id,          
+            p.prod_nom,         
+            p.prod_precio,      
+            p.prod_img,         
+            c.cat_nom AS categoria, 
+            s.sab_nom AS sabor,  
+            sm.subcat_nom AS sub_marca, 
+            CASE
+                WHEN f.cli_id IS NOT NULL THEN 1 
+                ELSE 0
+            END AS is_favorited
+        FROM 
+            tm_producto p
+        LEFT JOIN 
+            tm_categoria c ON p.cat_id = c.cat_id  
+        LEFT JOIN 
+            tm_sabor s ON p.sab_id = s.sab_id 
+        LEFT JOIN 
+            tm_subcategoria sm ON p.subcat_id = sm.subcat_id 
+        LEFT JOIN 
+            tm_favoritos f ON p.prod_id = f.prod_id AND f.cli_id = IFNULL(?, 0) AND f.emp_id = ?
+        WHERE 
+            p.cat_id = ? 
+            AND p.est = 1   
+            AND p.emp_id = ? 
+            AND (p.prod_img IS NOT NULL AND p.prod_img <> '')
+        ORDER BY 
+            p.fech_crea DESC; 
+    ";
+        $query = $conectar->prepare($sql);
+        $query->bindValue(1, $cli_id, PDO::PARAM_INT);
+        $query->bindValue(2, $emp_id, PDO::PARAM_INT);
+        $query->bindValue(3, $cat_id, PDO::PARAM_INT);
+        $query->bindValue(4, $emp_id, PDO::PARAM_INT);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public function getCategoriasConSubcategorias($emp_id) {
         $conectar = parent::Conexion();
         $sql = "SELECT 
@@ -137,8 +180,29 @@ class Producto extends Conectar
         $query = $conectar->prepare($sql);
         $query->bindValue(1, $emp_id, PDO::PARAM_INT);
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+    
+        $categorias = [];
+        foreach ($results as $row) {
+            $cat_id = $row['categoria_id'];
+            if (!isset($categorias[$cat_id])) {
+                $categorias[$cat_id] = [
+                    'categoria_nombre' => $row['categoria_nombre'],
+                    'categoria_id' => $row['categoria_id'],
+                    'subcategorias' => []
+                ];
+            }
+            if ($row['subcategoria_id']) {
+                $categorias[$cat_id]['subcategorias'][] = [
+                    'subcategoria_id' => $row['subcategoria_id'],
+                    'subcategoria_nombre' => $row['subcategoria_nombre']
+                ];
+            }
+        }
+    
+        return array_values($categorias); // Devolver como un array indexado
     }
+    
     
     
     
