@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         products.forEach(product => {
             // Seleccionar una clase aleatoria del array
-            document.querySelector('#categorianombre').textContent = product.categoria || "No existe Una Categria";
+            
             const subcategoryTitle = document.querySelector("#subcategorianombre");
             subcategoryTitle.innerHTML = `
                 ${product.sub_marca}

@@ -27,13 +27,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="col">
                     <div class="tp-product-category-item text-center mb-40">
                         <div class="tp-product-category-thumb fix">
-                            <a href="view/categoria/?subcat_id=${subcategory.subcat_id}">
+                            <a href="view/marcas/?subcat_id=${subcategory.subcat_id}">
                                 <img src="assets/img/category/${subcategory.subcategory_image}" alt="${subcategory.subcategory_name}" height="150" class="circle-img">
                             </a>
                         </div>
                         <div class="tp-product-category-content">
                             <h3 class="tp-product-category-title">
-                                <a href="view/categoria/?subcat_id=${subcategory.subcat_id}">${subcategory.subcategory_name}</a>
+                                <a href="view/marcas/?subcat_id=${subcategory.subcat_id}">${subcategory.subcategory_name}</a>
                             </h3>
                             <p>${subcategory.flavor_count} Sabores</p>
                         </div>

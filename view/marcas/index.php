@@ -31,6 +31,8 @@ $url_back = Conectar::ruta_back();
 
     <?php require_once("../modules/menu.inferior.mov.php") ?>
 
+    <?php require_once("../modules/seccion.buscar.mov.php") ?>
+
 
     <?php require_once("../modules/seccion.carrito.php") ?>
 
@@ -45,11 +47,6 @@ $url_back = Conectar::ruta_back();
             <div class="container">
                 <!-- botones -->
                 <div class="row align-items-end">
-                    <div class="tp-section-title-wrapper mb-40" style="text-align: center;">
-                        <h4 class="tp-section-title" id="categorianombre">
-
-                        </h4>
-                    </div>
                     <div class="col-xl-5 col-lg-6 col-md-5">
                         <div class="tp-section-title-wrapper mb-40">
                             <h3 class="tp-section-title" id="subcategorianombre">
@@ -89,7 +86,7 @@ $url_back = Conectar::ruta_back();
 
     <script src="<?php echo $url ?>assets/js/template2/login2.js"></script>
     <script src="<?php echo $url ?>assets/js/template2/menu_movil2.js"></script>
-    <script src="categoria.js"></script>
+    <script src="marca.js"></script>
 
 </body>
 

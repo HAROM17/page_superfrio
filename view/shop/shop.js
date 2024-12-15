@@ -75,11 +75,11 @@ document.addEventListener("DOMContentLoaded", function () {
         container.innerHTML = ""; // Limpiar contenido previo
 
         // Array de clases para los badges
-        const badgeClasses = ["product-offer", "product-hot", "product-sale", "product-trending"];
+        
 
         products.forEach(product => {
             // Seleccionar una clase aleatoria del array
-            const randomBadgeClass = badgeClasses[Math.floor(Math.random() * badgeClasses.length)];
+
             const favoriteClass = product.is_favorited === 1 ? 'is-favorite' : '';
             const isFavoriteIcon = product.is_favorited === 1
             ? '❤️' // Icono de corazón rojo si ya está en favoritos
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <img src="${rutaBase}assets/imagenes/productos/${product.prod_img}" alt="${product.prod_nom}">
                             </a>
                             <div class="tp-product-badge">
-                                <span class="${randomBadgeClass}">Shop</span>
+                                
                             </div>
                             <div class="tp-product-action">
                                 <div class="tp-product-action-item d-flex flex-column">

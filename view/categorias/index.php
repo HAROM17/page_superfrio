@@ -31,6 +31,8 @@ $url_back = Conectar::ruta_back();
 
     <?php require_once("../modules/menu.inferior.mov.php") ?>
 
+    <?php require_once("../modules/seccion.buscar.mov.php") ?>
+
 
     <?php require_once("../modules/seccion.carrito.php") ?>
 

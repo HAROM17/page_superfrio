@@ -32,7 +32,7 @@
 
                                                 if (!empty($categoria['subcategorias'])) {
                                                     foreach ($categoria['subcategorias'] as $subcategoria) {
-                                                        echo '<li><a href="' . $url . 'view/categoria/?subcat_id=' . htmlspecialchars($subcategoria['subcategoria_id']) . '">' . htmlspecialchars($subcategoria['subcategoria_nombre']) . '</a></li>';
+                                                        echo '<li><a href="' . $url . 'view/marcas/?subcat_id=' . htmlspecialchars($subcategoria['subcategoria_id']) . '">' . htmlspecialchars($subcategoria['subcategoria_nombre']) . '</a></li>';
                                                     }
                                                 } else {
                                                     echo '<li><a href="#">Sin Subcategorías</a></li>';
