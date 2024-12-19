@@ -1,35 +1,55 @@
 
-function init() {}
 
-document.addEventListener("DOMContentLoaded", function () {
-    const isAuthenticated = document.body.dataset.isAuthenticated === "true";
-    const accountLink = document.getElementById("accountLink");
 
-    accountLink.addEventListener("click", function (event) {
-        event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+// Manejar el formulario de inicio de sesión manual
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const baseUrl = document.body.dataset.baseUrl;
+    const formData = new FormData(this);
 
-        if (isAuthenticated) {
-            // Redirigir a la página de perfil
-            window.location.href = "profile.html";
-        } else {
-            // Mostrar el modal de inicio de sesión
-            const loginModal = new bootstrap.Modal(document.getElementById("authModal"));
-            loginModal.show();
-        }
-    });
+    fetch(`${baseUrl}controller/controller.cliente.php?op=login_cliente`, {
+        method: "POST",
+        body: formData,
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error en la respuesta del servidor.");
+            }
+            return response.text(); // Cambiado a `text` para manejar valores simples como "1", "0", "-1"
+        })
+        .then((data) => {
+            console.log("Respuesta del servidor:", data); // Depuración
+            if (data.trim() === "1") {
+                // Recargar la misma página sin mostrar index.php en la URL
+                window.location.reload();
+            } else if (data.trim() === "0") {
+                // Mostrar mensaje de error por credenciales incorrectas
+                const alertDiv = document.getElementById("loginAlert");
+                alertDiv.textContent = "Correo o contraseña incorrectos.";
+                alertDiv.classList.remove("d-none");
+                setTimeout(() => alertDiv.classList.add("d-none"), 5000);
+            } else if (data.trim() === "-1") {
+                // Mostrar mensaje de error por campos faltantes
+                const alertDiv = document.getElementById("loginAlert");
+                alertDiv.textContent = "Todos los campos son obligatorios.";
+                alertDiv.classList.remove("d-none");
+                setTimeout(() => alertDiv.classList.add("d-none"), 5000);
+            }
+        })
+        .catch((error) => {
+            console.error("Error en la solicitud:", error);
+        });
 });
-
-
 
 
 // Manejar el formulario de registro manual 
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("registerForm").addEventListener("submit", function (e) {
         e.preventDefault(); // Detiene el comportamiento por defecto
-
+        const baseUrl = document.body.dataset.baseUrl;
         const formData = new FormData(this);
 
-        fetch("../../controller/controller.cliente.php?op=register_cliente", {
+        fetch(`${baseUrl}controller/controller.cliente.php?op=register_cliente`, {
             method: "POST",
             body: formData,
         })
@@ -73,113 +93,61 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-
-
-
-// Manejar el formulario de inicio de sesión
-document.getElementById("loginForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-
-    fetch("../../controller/controller.cliente.php?op=login_cliente", {
-        method: "POST",
-        body: formData,
-    })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Error en la respuesta del servidor.");
+function initializeModalLogic() {
+    // Abrir el modal: asegura que el parámetro `e` sea correcto
+    const openModalButton = document.getElementById("openModalButton");
+    if (openModalButton) {
+        openModalButton.addEventListener("click", function () {
+            const empId = 1; // ID predeterminado o el ID que corresponde
+            const empInput = document.getElementById("emp_id");
+            if (empInput) {
+                empInput.value = empId;
             }
-            return response.text(); // Cambiado a `text` para manejar valores simples como "1", "0", "-1"
-        })
-        .then((data) => {
-            console.log("Respuesta del servidor:", data); // Depuración
-            if (data.trim() === "1") {
-                // Recargar la misma página sin mostrar index.php en la URL
-                window.location.reload();
-            } else if (data.trim() === "0") {
-                // Mostrar mensaje de error por credenciales incorrectas
-                const alertDiv = document.getElementById("loginAlert");
-                alertDiv.textContent = "Correo o contraseña incorrectos.";
-                alertDiv.classList.remove("d-none");
-                setTimeout(() => alertDiv.classList.add("d-none"), 5000);
-            } else if (data.trim() === "-1") {
-                // Mostrar mensaje de error por campos faltantes
-                const alertDiv = document.getElementById("loginAlert");
-                alertDiv.textContent = "Todos los campos son obligatorios.";
-                alertDiv.classList.remove("d-none");
-                setTimeout(() => alertDiv.classList.add("d-none"), 5000);
-            }
-        })
-        .catch((error) => {
-            console.error("Error en la solicitud:", error);
+
+            // Agregar o actualizar el parámetro `e` en la URL
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set("e", empId);
+            window.history.pushState({}, "", currentUrl);
+
+            // Guardar el ID de la empresa en localStorage
+            localStorage.setItem("empresa_id", empId);
         });
-});
+    }
 
+    // Al cerrar el modal, elimina el parámetro `e`
+    const authModal = document.getElementById("authModal");
+    if (authModal) {
+        authModal.addEventListener("hidden.bs.modal", function () {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.delete("e");
+            window.history.pushState({}, "", currentUrl);
+        });
+    }
 
+    // Verificar el parámetro `e` en la URL al cargar la página
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const empIdFromUrl = urlParams.get("e");
 
-// Al abrir el modal, asegura que el parámetro `e` sea correcto
-const openModalButton = document.getElementById("openModalButton");
-if (openModalButton) {
-    openModalButton.addEventListener("click", function () {
-        const empId = 1; // ID predeterminado o el ID que corresponde
+        // Validar que el ID de la empresa sea válido
+        if (empIdFromUrl && empIdFromUrl !== "1") {
+            // Si el parámetro `e` no es válido, corrige la URL
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set("e", 1); // Restablecer al valor correcto
+            window.history.replaceState({}, "", currentUrl);
+        }
+
+        // Asegurar que el ID de la empresa esté en el campo oculto
+        const empId = localStorage.getItem("empresa_id") || 1;
         const empInput = document.getElementById("emp_id");
         if (empInput) {
             empInput.value = empId;
         }
-
-        // Agregar o actualizar el parámetro `e` en la URL
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set("e", empId);
-        window.history.pushState({}, "", currentUrl);
-
-        // Guardar el ID de la empresa en localStorage
-        localStorage.setItem("empresa_id", empId);
     });
 }
 
-// Al cerrar el modal, elimina el parámetro `e`
-const authModal = document.getElementById("authModal");
-if (authModal) {
-    authModal.addEventListener("hidden.bs.modal", function () {
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.delete("e");
-        window.history.pushState({}, "", currentUrl);
-    });
-}
-
-// Verificar el parámetro `e` en la URL al cargar la página
-document.addEventListener("DOMContentLoaded", function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const empIdFromUrl = urlParams.get("e");
-
-    // Validar que el ID de la empresa sea válido
-    if (empIdFromUrl && empIdFromUrl !== "1") {
-        // Si el parámetro `e` no es válido, corrige la URL
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set("e", 1); // Restablecer al valor correcto
-        window.history.replaceState({}, "", currentUrl);
-    }
-
-    // Asegurar que el ID de la empresa esté en el campo oculto
-    const empId = localStorage.getItem("empresa_id") || 1;
-    const empInput = document.getElementById("emp_id");
-    if (empInput) {
-        empInput.value = empId;
-    }
-});
-
-
-
-
-
-
-/////////////////////////////////////////////////
-
-
-
-// Inicializar después de que el documento esté listo
-$(document).ready(function () {});
+// Inicializar la lógica del modal
+initializeModalLogic();
 
 // Manejo de autenticación con Google
 function handleCredentialResponse(response) {
@@ -221,8 +189,9 @@ function handleCredentialResponse(response) {
 
 // Función de inicio de sesión con Google
 function loginWithGoogle(correo) {
+    const baseUrl = document.body.dataset.baseUrl;
     $.ajax({
-        url: "../../controller/controller.cliente.php?op=acceso_google",
+        url: `${baseUrl}controller/controller.cliente.php?op=acceso_google`,
         type: "POST",
         data: {
             cli_correo: correo,
@@ -247,7 +216,8 @@ function loginWithGoogle(correo) {
 
 // Función de registro con Google
 function registerWithGoogle(cli_nom, cli_ape, cli_correo, cli_img) {
-    fetch("../../controller/controller.cliente.php?op=register_cliente_google", {
+    const baseUrl = document.body.dataset.baseUrl;
+    fetch(`${baseUrl}controller/controller.cliente.php?op=register_cliente_google`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -295,6 +265,3 @@ function decodeJwtResponse(token) {
         return null;
     }
 }
-
-
-init();

@@ -5,7 +5,7 @@
             <!-- Store -->
             <div class="col">
                 <div class="tp-mobile-item text-center">
-                    <a href="shop.html" class="tp-mobile-item-btn">
+                    <a href="<?php echo $url; ?>view/productos/" class="tp-mobile-item-btn">
                         <i class="flaticon-store"></i>
                         <span>Tienda</span>
                     </a>
@@ -24,14 +24,20 @@
 
             <!-- Wishlist -->
             <div class="col">
-                <div class="tp-mobile-item text-center">
-                    <a href="#" id="FavoritosLink" class="tp-mobile-item-btn">
+                <div class="tp-mobile-item text-center" >
+                <?php if (isset($_SESSION['cli_id'])): ?>
+                    <a href="#" class="tp-mobile-item-btn" id="favoritesButtonMovil">
                         <i class="flaticon-love"></i>
                         <span>Favoritos</span>
                     </a>
+                <?php else: ?>
+                    <a href="#" id="loginPromptFavorites3" class="tp-mobile-item-btn" id="loginPromptFavorites3">
+                        <i class="flaticon-love"></i>
+                        <span>Favoritos</span>
+                    </a>
+                <?php endif; ?>
                 </div>
             </div>
-
 
             <!-- Account -->
             <div class="col">

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Pedido</title>
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; line-height: 1.6; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .footer { margin-top: 20px; text-align: center; font-size: 0.9em; color: #555; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{{LOGO_EMPRESA}}" alt="Logo de la empresa" style="max-width: 200px;">
+        <h1>{{TITULO_MENSAJE}}</h1>
+        <p>{{MENSAJE_PERSONALIZADO}}</p>
+    </div>
+
+    <h2>Detalles del Pedido</h2>
+    <ul>
+        <li><strong>Número de Pedido:</strong> {{PEDIDO_ID}}</li>
+        <li><strong>Fecha:</strong> {{FECHA_PEDIDO}}</li>
+        <li><strong>Total:</strong> {{TOTAL_PEDIDO}}</li>
+        <li><strong>Método de Pago:</strong> {{METODO_PAGO}}</li>
+    </ul>
+
+    <h2>Productos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{PRODUCTOS}}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <p>Si tienes alguna pregunta, contáctanos en soporte@haromdev.com</p>
+        <p>&copy; 2024 Tienda Virtual. Todos los derechos reservados.</p>
+    </div>
+</body>
+</html>

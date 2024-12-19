@@ -15,10 +15,13 @@ $url_back = Conectar::ruta_back();
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Carrito de Compra</title>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- SweetAlert2 CDN -->
+
+
     <?php require_once("../modules/head.php") ?>
 </head>
 
-<body data-is-authenticated="<?= isset($_SESSION['cli_id']) ? 'true' : 'false' ?>">
+<body data-is-authenticated="<?= isset($_SESSION['cli_id']) ? 'true' : 'false' ?>" data-base-url="<?php echo $url; ?>">
 
     <?php require_once("../modules/loading.php") ?>
 
@@ -118,8 +121,8 @@ $url_back = Conectar::ruta_back();
     <script src="https://accounts.google.com/gsi/client" async></script>
     <?php require_once("../modules/js.php") ?>
 
-    <script src="<?php echo $url ?>assets/js/template2/login2.js"></script>
-    <script src="<?php echo $url ?>assets/js/template2/menu_movil2.js"></script>
+    <script src="<?php echo $url ?>assets/js/LoginRegistro.js"></script>
+    <script src="<?php echo $url ?>assets/js/FuncionesButton.js"></script>
     <script src="carrito.js"></script>
 </body>
 

@@ -44,7 +44,7 @@ if (!$cliente) {
     <?php require_once("../modules/head.php") ?>
 </head>
 
-<body data-is-authenticated="<?= isset($_SESSION['cli_id']) ? 'true' : 'false' ?>">
+<body data-is-authenticated="<?= isset($_SESSION['cli_id']) ? 'true' : 'false' ?>" data-base-url="<?php echo $url; ?>">
 
     <?php require_once("../modules/loading.php") ?>
 
@@ -86,7 +86,7 @@ if (!$cliente) {
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="tp-checkout-bill-area">
-                            <h3 class="tp-checkout-bill-title">Detalles</h3>
+                            <h3 class="tp-checkout-bill-title">Detalles Del Cliente</h3>
                             <div class="tp-checkout-bill-form">
                                 <form id="cliente-form">
                                     <div class="tp-checkout-bill-inner">
@@ -146,7 +146,7 @@ if (!$cliente) {
                                     <li class="tp-order-info-list-header">
                                         <h4>Productos</h4>
                                         <h4>Cantidad</h4>
-                                        <h4>Total</h4>
+                                        <h4>SubTotal</h4>
                                     </li>
 
                                     <!-- item list -->
@@ -261,11 +261,12 @@ if (!$cliente) {
     <?php require_once("../modules/footer.php"); ?>
 
 
+
     <script src="https://accounts.google.com/gsi/client" async></script>
     <?php require_once("../modules/js.php") ?>
 
-    <script src="<?php echo $url ?>assets/js/template2/login2.js"></script>
-    <script src="<?php echo $url ?>assets/js/template2/menu_movil2.js"></script>
+    <script src="<?php echo $url ?>assets/js/LoginRegistro.js"></script>
+    <script src="<?php echo $url ?>assets/js/FuncionesButton.js"></script>
     <script src="finalizar.compra.js"></script>
 </body>
 

@@ -129,27 +129,27 @@
             break;
             
             
-            case 'update_cart_items':
-                session_start();
-                $input = file_get_contents("php://input"); // Leer datos JSON del cuerpo
-                $data = json_decode($input, true); // Decodificar JSON recibido
-            
-                if (isset($data['items']) && isset($_SESSION['cli_id']) && isset($_SESSION['emp_id'])) {
-                    $cli_id = $_SESSION['cli_id'];
-                    $emp_id = $_SESSION['emp_id'];
-                    $items = $data['items'];
-            
-                    // Llamar al método del modelo para actualizar
-                    $result = $carrito->updateCartItems($items, $cli_id, $emp_id);
-                    echo json_encode($result);
-                } else {
-                    echo json_encode([
-                        "success" => false,
-                        "message" => "Datos insuficientes para actualizar el carrito o sesión expirada."
-                    ]);
-                }
-                break;
-            
+        case 'update_cart_items':
+            session_start();
+            $input = file_get_contents("php://input"); // Leer datos JSON del cuerpo
+            $data = json_decode($input, true); // Decodificar JSON recibido
+        
+            if (isset($data['items']) && isset($_SESSION['cli_id']) && isset($_SESSION['emp_id'])) {
+                $cli_id = $_SESSION['cli_id'];
+                $emp_id = $_SESSION['emp_id'];
+                $items = $data['items'];
+        
+                // Llamar al método del modelo para actualizar
+                $result = $carrito->updateCartItems($items, $cli_id, $emp_id);
+                echo json_encode($result);
+            } else {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Datos insuficientes para actualizar el carrito o sesión expirada."
+                ]);
+            }
+            break;  
+        
     }
 ?>
 

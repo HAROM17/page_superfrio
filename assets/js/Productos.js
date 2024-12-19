@@ -1,21 +1,66 @@
-
+// Cargar las subcategorias en la pagina principal
 document.addEventListener("DOMContentLoaded", function () {
-    // Obtener el ID de la subcategoría desde la URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const CATEGORY_ID = urlParams.get("cat_id"); // Ajusta "subcat_id" según tu parámetro en la URL
+    function loadSubcategories() {
+        fetch("controller/controller.producto.php?op=get_subcategories_with_flavor_count", {
+            method: "POST",
+            body: new URLSearchParams({ emp_id: 1 }), // Ajusta según tu empresa
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                renderSubcategories(data.subcategories);
+            } else {
+                console.error("No se encontraron subcategorías:", data.message);
+            }
+        })
+        .catch(error => console.error("Error al cargar las subcategorías:", error));
+    }
 
+    function renderSubcategories(subcategories) {
+        const container = document.querySelector(".row.row-cols-xl-5");
+        container.innerHTML = ""; // Limpiar contenido previo
+
+        subcategories.forEach(subcategory => {
+            const subcategoryHTML = `
+                <div class="col">
+                    <div class="tp-product-category-item text-center mb-40">
+                        <div class="tp-product-category-thumb fix">
+                            <a href="view/marcas/?subcat_id=${subcategory.subcat_id}">
+                                <img src="assets/img/category/${subcategory.subcategory_image}" alt="${subcategory.subcategory_name}" height="150" class="circle-img">
+                            </a>
+                        </div>
+                        <div class="tp-product-category-content">
+                            <h3 class="tp-product-category-title">
+                                <a href="view/marcas/?subcat_id=${subcategory.subcat_id}">${subcategory.subcategory_name}</a>
+                            </h3>
+                            <p>${subcategory.flavor_count} Sabores</p>
+                        </div>
+                    </div>
+                </div>`;
+            container.insertAdjacentHTML("beforeend", subcategoryHTML);
+        });
+    }
+
+    // Cargar las subcategorías al cargar la página
+    loadSubcategories();
+});
+
+// listar los productos nuevos en la pagina principal
+document.addEventListener("DOMContentLoaded", function () {
     // ID de la empresa
     const EMPRESA_ID = 1; // Ajusta esto según la empresa actual
-    SubcatProducts();
+    const newTabButton = document.getElementById("new-tab");
+    // Llamar a la función para obtener productos nuevos
+    fetchNewProducts();
 
     // Función para obtener los productos nuevos
-    function SubcatProducts() {
-        fetch("../../controller/controller.producto.php?op=get_products_by_category", {
+    function fetchNewProducts() {
+        fetch("controller/controller.producto.php?op=l_nuevos_productos", {
             method: "POST",
-            body: new URLSearchParams({
-                emp_id: EMPRESA_ID,
-                cat_id: CATEGORY_ID // Incluir el ID de la subcategoría
-            }), // Enviar el ID de la empresa
+            body: new URLSearchParams({ emp_id: EMPRESA_ID }), // Enviar el ID de la empresa
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
@@ -24,23 +69,29 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 if (data && data.products && data.products.length > 0) {
                     renderNewProducts(data.products, data.ruta_base);
+                    newTabButton.style.display = "inline-block"; // Asegurar que se muestre si hay productos
                 } else {
                     console.error("No se encontraron productos nuevos.");
+                    newTabButton.style.display = "none"; // Ocultar si no hay productos
                 }
             })
+            .catch(error => {
+                console.error("Error al listar productos nuevos:", error);
+                newTabButton.style.display = "none"; // Ocultar en caso de error
+            });
     }
 
     // Función para renderizar los productos nuevos en el DOM
     function renderNewProducts(products, rutaBase) {
         const container = document.getElementById("new-products-container");
-        
         container.innerHTML = ""; // Limpiar contenido previo
+
+        // Array de clases para los badges
+        const badgeClasses = ["product-offer", "product-hot", "product-sale", "product-trending"];
 
         products.forEach(product => {
             // Seleccionar una clase aleatoria del array
-            document.querySelector('#categorianombre').textContent = product.categoria || "No existe Una Categria";
-
-
+            const randomBadgeClass = badgeClasses[Math.floor(Math.random() * badgeClasses.length)];
             const favoriteClass = product.is_favorited === 1 ? 'is-favorite' : '';
             const isFavoriteIcon = product.is_favorited === 1
             ? '❤️' // Icono de corazón rojo si ya está en favoritos
@@ -55,6 +106,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             <a>
                                 <img src="${rutaBase}assets/imagenes/productos/${product.prod_img}" alt="${product.prod_nom}">
                             </a>
+                            <div class="tp-product-badge">
+                                <span class="${randomBadgeClass}">Nuevo Sabor</span>
+                            </div>
                             <div class="tp-product-action">
                                 <div class="tp-product-action-item d-flex flex-column">
                                     <button type="button" class="tp-product-action-btn tp-product-add-cart-btn" data-prod-id="${product.prod_id}">

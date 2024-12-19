@@ -1,0 +1,43 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.thank-you {
+    text-align: center;
+    color: #4CAF50;
+}
+.order-details {
+    margin-top: 20px;
+}
+.order-summary {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+.order-summary th, .order-summary td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.order-summary th {
+    background-color: #4CAF50;
+    color: white;
+}
+.total {
+    font-weight: bold;
+}
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #888;
+}

@@ -19,7 +19,7 @@
     <?php require_once("modules/head.php")?>
 </head>
 
-<body data-is-authenticated="<?= isset($_SESSION['cli_id']) ? 'true' : 'false' ?>">
+<body data-is-authenticated="<?= isset($_SESSION['cli_id']) ? 'true' : 'false' ?>" data-base-url="<?php echo $url; ?>">
 
     <?php require_once("modules/loading.php") ?>
 
@@ -86,9 +86,10 @@
     <!-- JS here -->
     <script src="https://accounts.google.com/gsi/client" async></script>
     <?php require_once("modules/js.php") ?>
-    <script src="<?php echo $url ?>assets/js/template/login.js"></script>
-    <script src="<?php echo $url ?>assets/js/template/menu_movil.js"></script>
-    <script src="<?php echo $url ?>assets/js/template/producto.js"></script>
+    <script src="<?php echo $url ?>assets/js/LoginRegistro.js"></script>
+    <script src="<?php echo $url ?>assets/js/FuncionesButton.js"></script>
+    <script src="<?php echo $url ?>assets/js/Productos.js"></script>
+    
 </body>
 
 </html>

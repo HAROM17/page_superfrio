@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="<?php echo $url ?>assets/css/spacing.css"></link>
 <link rel="stylesheet" href="<?php echo $url ?>assets/css/main.css"></link>
 <link rel="stylesheet" href="<?php echo $url ?>assets/css/style.css"></link>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 

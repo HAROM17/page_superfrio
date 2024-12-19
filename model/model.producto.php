@@ -15,8 +15,7 @@ class Producto extends Conectar
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function GetProductsAll($emp_id, $cli_id)
-    {
+    public function GetProductsAll($emp_id, $cli_id) {
         $conectar = parent::Conexion();
         $sql = "CALL sp_l_producto_08_all(?, ?)";
         $query = $conectar->prepare($sql);

@@ -1,21 +1,16 @@
 
-document.addEventListener("DOMContentLoaded", function () {
-    // Obtener el ID de la subcategoría desde la URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const CATEGORY_ID = urlParams.get("cat_id"); // Ajusta "subcat_id" según tu parámetro en la URL
 
+document.addEventListener("DOMContentLoaded", function () {
     // ID de la empresa
     const EMPRESA_ID = 1; // Ajusta esto según la empresa actual
-    SubcatProducts();
+    // Llamar a la función para obtener productos nuevos
+    fetchNewProducts();
 
     // Función para obtener los productos nuevos
-    function SubcatProducts() {
-        fetch("../../controller/controller.producto.php?op=get_products_by_category", {
+    function fetchNewProducts() {
+        fetch("../../controller/controller.producto.php?op=l_all_productos", {
             method: "POST",
-            body: new URLSearchParams({
-                emp_id: EMPRESA_ID,
-                cat_id: CATEGORY_ID // Incluir el ID de la subcategoría
-            }), // Enviar el ID de la empresa
+            body: new URLSearchParams({ emp_id: EMPRESA_ID }), // Enviar el ID de la empresa
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
@@ -24,8 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 if (data && data.products && data.products.length > 0) {
                     renderNewProducts(data.products, data.ruta_base);
-                } else {
-                    console.error("No se encontraron productos nuevos.");
                 }
             })
     }
@@ -33,13 +26,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // Función para renderizar los productos nuevos en el DOM
     function renderNewProducts(products, rutaBase) {
         const container = document.getElementById("new-products-container");
-        
         container.innerHTML = ""; // Limpiar contenido previo
+
+        // Array de clases para los badges
+        
 
         products.forEach(product => {
             // Seleccionar una clase aleatoria del array
-            document.querySelector('#categorianombre').textContent = product.categoria || "No existe Una Categria";
-
 
             const favoriteClass = product.is_favorited === 1 ? 'is-favorite' : '';
             const isFavoriteIcon = product.is_favorited === 1
@@ -55,6 +48,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             <a>
                                 <img src="${rutaBase}assets/imagenes/productos/${product.prod_img}" alt="${product.prod_nom}">
                             </a>
+                            <div class="tp-product-badge">
+                                
+                            </div>
                             <div class="tp-product-action">
                                 <div class="tp-product-action-item d-flex flex-column">
                                     <button type="button" class="tp-product-action-btn tp-product-add-cart-btn" data-prod-id="${product.prod_id}">
@@ -119,3 +115,9 @@ document.addEventListener("DOMContentLoaded", function () {
         handleWishlistButtons();
     }
 });
+
+
+
+
+
+

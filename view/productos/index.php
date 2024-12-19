@@ -21,25 +21,17 @@ $url_back = Conectar::ruta_back();
     <?php require_once("../modules/head.php") ?>
 </head>
 
-<body data-is-authenticated="<?= isset($_SESSION['cli_id']) ? 'true' : 'false' ?>">
+<body data-is-authenticated="<?= isset($_SESSION['cli_id']) ? 'true' : 'false' ?>" data-base-url="<?php echo $url; ?>" >
 
     <?php require_once("../modules/loading.php") ?>
-
-
     <?php require_once("../modules/sidebar.mov.php") ?>
 
     <div class="body-overlay"></div>
 
-
     <?php require_once("../modules/menu.inferior.mov.php") ?>
-
-
+    <?php require_once("../modules/seccion.buscar.mov.php") ?>
     <?php require_once("../modules/seccion.carrito.php") ?>
-
-
     <?php require_once("../modules/header.php") ?>
-
-
     <?php require_once("../modules/header.flo.php") ?>
 
     <main>
@@ -89,9 +81,9 @@ $url_back = Conectar::ruta_back();
     <script src="https://accounts.google.com/gsi/client" async></script>
     <?php require_once("../modules/js.php") ?>
 
-    <script src="<?php echo $url ?>assets/js/template2/login2.js"></script>
-    <script src="<?php echo $url ?>assets/js/template2/menu_movil2.js"></script>
-    <script src="shop.js"></script>
+    <script src="<?php echo $url ?>assets/js/LoginRegistro.js"></script>
+    <script src="<?php echo $url ?>assets/js/FuncionesButton.js"></script>
+    <script src="productos.js"></script>
 
 </body>
 
