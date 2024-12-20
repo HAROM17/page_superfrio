@@ -48,9 +48,9 @@
                                     </ul>
                                 </li>
 
-                                <li><a href="galeria.html">Galeria</a></li>
-                                <li><a href="coupon.html">Acerca de nosotros</a></li>
-                                <li><a href="contact.html">Contáctanos</a></li>
+                                <li><a href="#">Galeria</a></li>
+                                <li><a href="#">Acerca de nosotros</a></li>
+                                <li><a href="#">Contáctanos</a></li>
                             </ul>
                         </nav>
                     </div>

@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
             button.addEventListener("click", function (event) {
                 event.preventDefault();
                 // Redirigir a la página de favoritos
-                window.location.href = `${baseUrl}view/favoritos/`;
+                window.location.href = `${baseUrl}`;
             });
         }
     });
@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", function () {
         accountLink.addEventListener("click", function (event) {
             event.preventDefault();
             if (isAuthenticated) {
-                window.location.href = "favoritos.php";
+                window.location.href = "#";
             } else {
                 const authModal = new bootstrap.Modal(document.getElementById("authModal"));
                 authModal.show();

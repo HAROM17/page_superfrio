@@ -55,7 +55,7 @@
                                 <span><?= $_SESSION['cli_nom'] ?? 'Usuario'; ?></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item" href="<?php echo $url ?>view/perfil/">Perfil</a></li>
+                                <li><a class="dropdown-item" href="#">Perfil</a></li>
                                 <li><a class="dropdown-item" href="<?php echo $url ?>view/modules/logout.php">Cerrar sesión</a></li>
                             </ul>
                         </div>

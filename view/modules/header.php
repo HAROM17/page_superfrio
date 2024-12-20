@@ -225,9 +225,9 @@
 
 
 
-                                        <li><a href="galeria.html">Galeria</a></li>
-                                        <li><a href="coupon.html">Acerca de nosotros</a></li>
-                                        <li><a href="contact.html">Contáctanos</a></li>
+                                        <li><a href="#">Galeria</a></li>
+                                        <li><a href="#">Acerca de nosotros</a></li>
+                                        <li><a href="#">Contáctanos</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -246,7 +246,7 @@
                                 </div>
                                 <div class="tp-header-contact-content">
                                     <h5>Contacto:</h5>
-                                    <p><a href="tel:51 956 854 187">+51 956 854 187</a></p>
+                                    <p><a href="#"><?php echo htmlspecialchars($telefono); ?></a></p>
                                 </div>
                             </div>
                         </div>

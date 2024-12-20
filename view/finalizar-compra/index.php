@@ -24,6 +24,19 @@ if (!isset($_SESSION['cli_id']) || !isset($_SESSION['emp_id'])) {
     exit;
 }
 
+require_once("../../model/model.empresa.php");
+// Crear instancia y obtener la información de la empresa
+$empresa = new Empresa();
+$infoemp = $empresa->obtenerInfoEmpresa(1); // Cambia "1" por el ID correcto de la empresa
+if ($infoemp) {
+    $logo = $infoemp['emp_logo'];
+    $nombreEmpresa = $infoemp['emp_nom'];
+    $correo = $infoemp['emp_correo'];
+    $telefono = $infoemp['emp_telef'];
+    $direccion = $infoemp['emp_direc'];
+} else {
+    echo "No se encontró información de la empresa.";
+}
 ?>
 
 <!doctype html>
