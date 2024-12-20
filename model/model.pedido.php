@@ -79,7 +79,7 @@ class Pedido extends Conectar
             $queryPedido->execute();
 
             $pedidoId = $conectar->lastInsertId();
-            
+
 
             // Insertar detalles del pedido
             $sqlDetalle = "INSERT INTO td_pedido_detalle (ped_id, prod_id, cantidad, precio_unitario, total) 
@@ -156,60 +156,77 @@ class Pedido extends Conectar
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getPedidoDetalles($pedidoId) {
+    public function getPedidoDetalles($pedidoId)
+    {
         $conectar = parent::conexion();
-    
+
         try {
             // Consulta para obtener los detalles del pedido
             $sqlPedido = "SELECT 
                             p.ped_id AS pedido_id, 
                             p.fech_crea AS fecha, 
                             c.cli_correo AS cliente_correo, 
+                            c.cli_nom AS cliente_nombre, 
                             p.ped_total AS total,
                             pag.pag_nom AS metodo_pago
                           FROM tm_pedido p
                           JOIN tm_cliente c ON p.cli_id = c.cli_id
                           JOIN tm_pago pag ON p.pag_id = pag.pag_id
                           WHERE p.ped_id = ?";
-    
+
             $queryPedido = $conectar->prepare($sqlPedido);
             $queryPedido->bindValue(1, $pedidoId, PDO::PARAM_INT);
             $queryPedido->execute();
             $pedido = $queryPedido->fetch(PDO::FETCH_ASSOC);
-    
+
             if (!$pedido) {
                 return false; // Retorna falso si no encuentra el pedido
             }
-    
+
             // Consulta para obtener los productos asociados al pedido
             $sqlProductos = "SELECT 
                                 d.prod_id AS producto_id, 
                                 p.prod_nom AS nombre, 
+                                sc.subcat_nom AS subcategoria,
+                                s.sab_nom AS sabor,
                                 d.cantidad, 
                                 d.precio_unitario, 
                                 (d.cantidad * d.precio_unitario) AS subtotal
-                             FROM td_pedido_detalle d
-                             JOIN tm_producto p ON d.prod_id = p.prod_id
-                             WHERE d.ped_id = ?";
-    
+                            FROM td_pedido_detalle d
+                            JOIN tm_producto p ON d.prod_id = p.prod_id
+                            LEFT JOIN tm_subcategoria sc ON p.subcat_id = sc.subcat_id
+                            LEFT JOIN tm_sabor s ON p.sab_id = s.sab_id
+                            WHERE d.ped_id = ?";
+
             $queryProductos = $conectar->prepare($sqlProductos);
             $queryProductos->bindValue(1, $pedidoId, PDO::PARAM_INT);
             $queryProductos->execute();
             $productos = $queryProductos->fetchAll(PDO::FETCH_ASSOC);
-    
+
             // Verificar si hay productos asociados
             if (empty($productos)) {
                 $pedido['productos'] = [];
             } else {
                 $pedido['productos'] = $productos;
             }
-    
+
             return $pedido;
         } catch (Exception $e) {
             error_log("Error al obtener detalles del pedido: " . $e->getMessage());
             return false;
         }
     }
-    
-    
+
+
+    public function obtenerCorreosAdministradores($emp_id)
+    {
+        $conectar = parent::conexion();
+        $sql = "SELECT usu_correo FROM tm_usuario 
+                    WHERE emp_id = ? AND rol_id = 8 AND est = 1"; // rol_id = 1 para administradores
+        $query = $conectar->prepare($sql);
+        $query->bindValue(1, $emp_id, PDO::PARAM_INT);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_COLUMN); // Devuelve solo los correos en un array
+
+    }
 }

@@ -112,22 +112,46 @@ switch ($_GET["op"]) {
             // Extraer el correo como cadena
             $correoCliente = $clienteCorreo['cli_correo']; // Esto es una cadena
 
-            
+
 
             // Crear pedido y manejar excepciones
             try {
                 $pedidoId = $pedido->crearPedido($cli_id, $emp_id, $carrito, $voucher, $pag_id, $pedidoEstado);
 
                 if ($pedidoId) {
-                    // Enviar correo al cliente (opcional)
+                    // Obtener los detalles del pedido
                     $pedidoDetalles = $pedido->getPedidoDetalles($pedidoId);
-                    $correoEnviado = $email->enviarDetallePedido($pedidoDetalles, $correoCliente); // Cambiado aquí
-            
+
+                    // Enviar correo al cliente
+                    if (!empty($correoCliente)) {
+                        $correoEnviadoCliente = $email->enviarDetallePedido($pedidoDetalles, $correoCliente);
+
+                        if (!$correoEnviadoCliente) {
+                            error_log("Error al enviar correo al cliente con correo: $correoCliente.");
+                        }
+                    }
+
+                    // Obtener los correos de los administradores
+                    $correosAdmins = $pedido->obtenerCorreosAdministradores($emp_id);
+
+                    if (!empty($correosAdmins)) {
+                        // Crear una instancia separada de PHPMailer para los administradores
+                        $emailAdmins = new Email(); // Nueva instancia
+                        $correoEnviadoAdmins = $emailAdmins->enviarNotificacionAdministradores($pedidoDetalles, $correosAdmins);
+
+                        if (!$correoEnviadoAdmins) {
+                            error_log("Error al enviar notificación a los administradores.");
+                        }
+                    } else {
+                        error_log("No se encontraron administradores para la empresa con ID: $emp_id.");
+                    }
+
                     echo json_encode([
                         'success' => true,
                         'pedido_id' => $pedidoId,
                         'estado' => $pedidoEstado,
-                        'correo_enviado' => $correoEnviado ? 'sí' : 'no'
+                        'correo_enviado_cliente' => isset($correoEnviadoCliente) && $correoEnviadoCliente ? 'sí' : 'no',
+                        'correo_enviado_admins' => isset($correoEnviadoAdmins) && $correoEnviadoAdmins ? 'sí' : 'no',
                     ]);
                     exit;
                 } else {

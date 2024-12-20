@@ -88,7 +88,10 @@ class Email extends PHPMailer
         foreach ($pedido['productos'] as $producto) {
             $productosHtml .= "
             <tr>
-                <td>" . htmlspecialchars($producto['nombre']) . "</td>
+                <td>
+                    " . htmlspecialchars($producto['subcategoria']) . ", 
+                    " . htmlspecialchars($producto['sabor']) . "
+                </td>
                 <td>" . htmlspecialchars($producto['cantidad']) . "</td>
                 <td>S/ " . number_format($producto['precio_unitario'], 2) . "</td>
                 <td>S/ " . number_format($producto['subtotal'], 2) . "</td>
@@ -107,4 +110,69 @@ class Email extends PHPMailer
             return false;
         }
     }
+
+    public function enviarNotificacionAdministradores($pedidoDetalles, $correosAdmins)
+    {
+        // Validar que haya correos de administradores
+        if (empty($correosAdmins) || !is_array($correosAdmins)) {
+            error_log("No se encontraron correos de administradores.");
+            return false;
+        }
+    
+        // Configurar SMTP
+        $this->IsSMTP();
+        $this->Host = 'smtp.hostinger.com';
+        $this->Port = 587;
+        $this->SMTPAuth = true;
+        $this->SMTPSecure = 'tls';
+    
+        $this->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
+    
+        $this->Username = $this->gCorreo;
+        $this->Password = $this->gContrasena;
+        $this->setFrom($this->gCorreo, "Notificaciones Tienda");
+    
+        // Agregar correos de administradores
+        foreach ($correosAdmins as $adminCorreo) {
+            $this->addAddress($adminCorreo);
+        }
+    
+        $this->isHTML(true);
+        $this->CharSet = 'UTF-8';
+        $this->Subject = "Notificación de nuevo pedido #{$pedidoDetalles['pedido_id']}";
+    
+        // Cargar plantilla HTML
+        $template = file_get_contents('../view/emails/NotificacionAdmin.html');
+    
+        // Reemplazar placeholders en la plantilla
+        $template = str_replace("{{PEDIDO_ID}}", $pedidoDetalles['pedido_id'], $template);
+        $template = str_replace("{{NOMBRE_CLIENTE}}", $pedidoDetalles['cliente_nombre'], $template);
+        $template = str_replace("{{CORREO_CLIENTE}}", $pedidoDetalles['cliente_correo'], $template);
+        $template = str_replace("{{METODO_PAGO}}", $pedidoDetalles['metodo_pago'], $template);
+        $template = str_replace("{{FECHA_PEDIDO}}", $pedidoDetalles['fecha'], $template);
+        $template = str_replace("{{TOTAL_PEDIDO}}", number_format($pedidoDetalles['total'], 2), $template);
+        $template = str_replace(
+            "{{LINK_PEDIDO}}",
+            "https://sistema.haromdev.com/",
+            $template
+        );
+    
+        $this->Body = $template;
+    
+        // Enviar correo
+        try {
+            $this->send();
+            return true;
+        } catch (Exception $e) {
+            error_log("Error al enviar notificación a los administradores: {$this->ErrorInfo}");
+            return false;
+        }
+    }
+    
 }

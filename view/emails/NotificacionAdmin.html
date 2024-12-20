@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificación de Pedido</title>
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; line-height: 1.6; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .footer { margin-top: 20px; text-align: center; font-size: 0.9em; color: #555; }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007BFF;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Nuevo Pedido Recibido</h1>
+        <p>Se ha registrado un nuevo pedido en tu tienda.</p>
+    </div>
+
+    <h2>Detalles del Pedido</h2>
+    <ul>
+        <li><strong>Número de Pedido:</strong> {{PEDIDO_ID}}</li>
+        <li><strong>Fecha:</strong> {{FECHA_PEDIDO}}</li>
+        <li><strong>Total:</strong> S/ {{TOTAL_PEDIDO}}</li>
+        <li><strong>Método de Pago:</strong> {{METODO_PAGO}}</li>
+        <li><strong>Cliente:</strong> {{NOMBRE_CLIENTE}}</li>
+        <li><strong>Correo del Cliente:</strong> {{CORREO_CLIENTE}}</li>
+    </ul>
+
+    <div style="text-align: center;">
+        <a href="{{LINK_PEDIDO}}" class="button">Ver Pedido en el Sistema</a>
+    </div>
+
+    <div class="footer">
+        <p>Por favor, revisa el sistema para más detalles.</p>
+    </div>
+</body>
+</html>

@@ -41,3 +41,22 @@ body {
     margin-top: 30px;
     color: #888;
 }
+
+
+.center-button {
+    text-align: center;
+    margin-top: 20px;
+}
+.center-button button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.center-button button:hover {
+    background-color: #0056b3;
+}

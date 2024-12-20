@@ -104,6 +104,17 @@ function procesarPedido() {
         alert("Método de pago no válido.");
         return;
     }
+    const termsCheckbox = document.getElementById("read_all");
+    const termsError = document.getElementById("terms-error");
+
+    // Validar que se acepten los términos y condiciones
+    if (!termsCheckbox.checked) {
+        termsError.style.display = "block"; // Mostrar el mensaje de error
+        return; // Detener el flujo si no se aceptan los términos
+    } else {
+        termsError.style.display = "none"; // Ocultar el mensaje de error si se aceptan los términos
+    }
+
 
     // Agregar otros datos al FormData
     formData.append("cli_id", cli_id); // ID del cliente
@@ -121,6 +132,17 @@ function procesarPedido() {
         cancelButtonColor: "#d33"
     }).then((result) => {
         if (result.isConfirmed) {
+            // Mostrar mensaje de carga mientras se procesa
+            Swal.fire({
+                title: 'Validando datos...',
+                text: 'Espere un momento mientras procesamos la solicitud.',
+                icon: 'info',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+    
             // Enviar la solicitud al backend
             fetch("../../controller/controller.pedido.php?op=crear_pedido", {
                 method: "POST",
@@ -133,6 +155,8 @@ function procesarPedido() {
                 return response.json();
             })
             .then((data) => {
+                Swal.close(); // Cerrar el mensaje de carga
+    
                 if (data.success) {
                     Swal.fire({
                         title: "¡Pedido realizado con éxito!",
@@ -145,13 +169,14 @@ function procesarPedido() {
                 } else {
                     Swal.fire({
                         title: "Error",
-                        text: "Error al realizar el pedido: " + data.message,
+                        text: data.message || "Hubo un problema al procesar su pedido.",
                         icon: "error",
                         confirmButtonText: "OK"
                     });
                 }
             })
             .catch((error) => {
+                Swal.close(); // Cerrar el mensaje de carga
                 console.error("Error:", error);
                 Swal.fire({
                     title: "Error",
@@ -160,10 +185,9 @@ function procesarPedido() {
                     confirmButtonText: "OK"
                 });
             });
-        } else {
-            console.log("Pedido cancelado por el usuario.");
         }
     });
+    
     
 }
 

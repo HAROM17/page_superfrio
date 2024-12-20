@@ -19,14 +19,8 @@ $totalGeneral = 0;
 
 
 if (!isset($_SESSION['cli_id']) || !isset($_SESSION['emp_id'])) {
-    echo "<script>alert('Por favor, inicie sesión primero.'); window.location.href='../../login.php';</script>";
-    exit;
-}
-
-
-
-if (!$cliente) {
-    echo "<script>alert('Cliente no encontrado.'); window.location.href='../../index.php';</script>";
+    $url = Conectar::ruta(); // Reemplaza con tu ruta dinámica
+    echo "<script>alert('Por favor, inicie sesión primero.'); window.location.href='" . $url . "';</script>";
     exit;
 }
 
@@ -199,7 +193,7 @@ if (!$cliente) {
 
                                     </div>
                                 </div>
-                                <div class="tp-checkout-payment-item"  style="display: none;">
+                                <div class="tp-checkout-payment-item" style="display: none;">
                                     <input type="radio" id="cheque_payment" name="payment" value="3">
                                     <label for="cheque_payment">Tarjeta</label>
                                     <div class="tp-checkout-payment-desc cheque-payment" style="display: none;">
@@ -236,7 +230,8 @@ if (!$cliente) {
                             <div class="tp-checkout-agree">
                                 <div class="tp-checkout-option">
                                     <input id="read_all" type="checkbox">
-                                    <label for="read_all">He leído y acepto los terminos</label>
+                                    <label for="read_all">He leído y acepto los términos</label>
+                                    <p id="terms-error" style="color: red; font-size: 0.9em; display: none;">Debes aceptar los términos para continuar.</p>
                                 </div>
                             </div>
                             <div class="tp-checkout-btn-wrapper">

@@ -2,6 +2,7 @@
 session_start();
 require_once("../../config/conexion.php");
 require_once("../../model/model.pedido.php");
+$url = Conectar::ruta();
 
 if (!isset($_GET['pedido_id'])) {
     echo "<script>alert('No se encontró el pedido.'); window.location.href='../index.php';</script>";
@@ -23,12 +24,14 @@ $metodoPago = $pedido['metodo_pago']; // Asegúrate de que este dato esté en la
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedido Confirmado</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <?php if ($metodoPago === 'Yape'): ?>
@@ -62,7 +65,11 @@ $metodoPago = $pedido['metodo_pago']; // Asegúrate de que este dato esté en la
             <tbody>
                 <?php foreach ($pedido['productos'] as $producto): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
+                        <td>
+
+                            <?php echo htmlspecialchars($producto['subcategoria']); ?>, <?php echo htmlspecialchars($producto['sabor']); ?>
+
+                        </td>
                         <td><?php echo $producto['cantidad']; ?></td>
                         <td>S/ <?php echo number_format($producto['precio_unitario'], 2); ?></td>
                         <td>S/ <?php echo number_format($producto['subtotal'], 2); ?></td>
@@ -82,9 +89,15 @@ $metodoPago = $pedido['metodo_pago']; // Asegúrate de que este dato esté en la
         <?php endif; ?>
 
         <div class="footer">
-            <p>Si tienes alguna pregunta, contáctanos en <a href="mailto:soporte@tienda.com">soporte@tienda.com</a>.</p>
-            <p>&copy; 2024 Tienda Virtual. Todos los derechos reservados.</p>
+            <p>Si tienes alguna pregunta, contáctanos en <a href="mailto:soporte@haromdev.com">soporte@haromdev.com</a>.</p>
+            <p>&copy; 2024 Helados y Chupetes Super Frio´s. Todos los derechos reservados.</p>
+        </div>
+        <div class="center-button">
+            <a href="<?php echo $url ?>view/productos/">
+                <button>SEGUIR COMPRANDO</button>
+            </a>
         </div>
     </div>
 </body>
+
 </html>
